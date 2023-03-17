@@ -1,16 +1,20 @@
-import React from 'react'
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { JSXElementConstructor } from 'react'
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+import About from './pages/About';
+import Home from './pages/Home';
+import PageNotFound from './pages/PageNotFound';
+// import Home from './pages/Home';
+// import PageNotFound from './pages/PageNotFound';
+// import Layout from './components/Layout';
 
+function App(): JSX.Element {
   return (
-    <div className="App">
-
-    </div>
+    <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="*" element={<PageNotFound />} />
+    </Routes>
   )
 }
 
