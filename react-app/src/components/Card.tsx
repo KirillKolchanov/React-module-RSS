@@ -14,7 +14,7 @@ export default class Card extends Component<Props> {
         <div className="px-6 py-4 w-96">
           <div className="font-bold text-xl mb-2">{car.make}</div>
           <p className="text-base">{car.model}</p>
-          <img src={car.img} alt="" />
+          <img className='mt-6' src={car.img} alt="" />
         </div>
       </div>
     );

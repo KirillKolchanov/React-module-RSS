@@ -6,7 +6,7 @@ export default class About extends Component {
     return (
       <>
       <Navigation />
-      <h1>Page not found!</h1>
+      <h1 className='mt-12 ml-12'>Error 404. Page not found!</h1>
       </>
     );
   }
