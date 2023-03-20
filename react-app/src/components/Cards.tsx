@@ -9,7 +9,7 @@ export default class Cards extends Component {
   render(): JSX.Element {
 
     return (
-      <div className="mt-16">
+      <div className="mt-12">
         <div className='flex justify-center gap-16 flex-wrap'>
           {allCars.map((car: ICarSchema) =>
             <Card key={car.id} car={car}/>

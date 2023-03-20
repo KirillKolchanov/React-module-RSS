@@ -11,7 +11,7 @@ export default class SearchBar extends Component<{}, State> {
 
   render(): JSX.Element {
     return (
-      <div className="relative mt-20 flex justify-center">
+      <div className="relative mt-8 flex justify-center">
         <input
           className="w-54 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent border shadow-sm border-slate-300 "
           type="text"
