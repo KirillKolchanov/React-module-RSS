@@ -9,7 +9,7 @@ function App(): JSX.Element {
   return (
     <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Navigate replace to="/" />} />
         <Route path="about" element={<About />} />
         <Route path="/404" element={<PageNotFound /> } />
         <Route path="*" element={<Navigate replace to="/404" />} />

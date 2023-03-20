@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation';
 import '../styles/pages/About.css'
 
 export default class About extends Component {
+
   render(): JSX.Element {
     return (
       <>
