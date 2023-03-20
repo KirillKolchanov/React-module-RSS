@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import allCars from '../data/cars'
 import Card from './Card';
 
-import { ICarSchema } from 'models';
+import { ICarSchema } from '../models';
 
 export default class Cards extends Component {
 
