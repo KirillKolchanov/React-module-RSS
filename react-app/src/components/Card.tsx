@@ -9,7 +9,7 @@ export default class Card extends Component<Props> {
   render(): JSX.Element {
     const { car } = this.props;
     return (
-      <div className="max-w-sm rounded overflow-hidden shadow-lg">
+      <div className="max-w-sm rounded overflow-hidden shadow-lg dark:bg-slate-800 hover:scale-105 hover:cursor-pointer transition duration-300">
         <div className="px-6 py-4 w-96">
           <div className="card-title_wrapper flex justify-between items-center">
             <div className="card-title">
