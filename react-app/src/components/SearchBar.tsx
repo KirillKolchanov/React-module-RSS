@@ -17,7 +17,7 @@ export default class SearchBar extends Component<Record<string, never>, State> {
           focus:border-transparent border shadow-sm border-slate-300 "
           type="text"
           placeholder="Search"
-          value={this.state.searchValue}
+          value={this.state.searchValue !== null ? this.state.searchValue : ''}
           onChange={(event) => this.setState({ searchValue: event.target.value })}
         />
         <button
