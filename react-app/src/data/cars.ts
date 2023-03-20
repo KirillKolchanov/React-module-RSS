@@ -1,4 +1,4 @@
-import { ICarSchema } from "../models";
+import { ICarSchema } from '../models';
 
 export const allCars: ICarSchema[] = [
   {
@@ -10,7 +10,7 @@ export const allCars: ICarSchema[] = [
     fuel: 'petrol',
     miles: '2,650',
     city: 'Warsaw',
-    img: '/cars/ferrari 488.jpeg'
+    img: '/cars/ferrari 488.jpeg',
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export const allCars: ICarSchema[] = [
     fuel: 'electro',
     miles: '205',
     city: 'London',
-    img: '/cars/aston-martin.jpeg'
+    img: '/cars/aston-martin.jpeg',
   },
   {
     id: 4,
@@ -32,7 +32,7 @@ export const allCars: ICarSchema[] = [
     fuel: 'petrol',
     miles: '19,025',
     city: 'Krakow',
-    img: '/cars/Porshe 911.jpeg'
+    img: '/cars/Porshe 911.jpeg',
   },
   {
     id: 5,
@@ -43,7 +43,7 @@ export const allCars: ICarSchema[] = [
     fuel: 'diesel',
     miles: '19,600',
     city: 'Paris',
-    img: '/cars/ferrari f12.jpeg'
+    img: '/cars/ferrari f12.jpeg',
   },
   {
     id: 6,
@@ -54,7 +54,7 @@ export const allCars: ICarSchema[] = [
     fuel: 'petrol',
     miles: '48,000',
     city: 'Madrid',
-    img: '/cars/mercedes sls-old.jpeg'
+    img: '/cars/mercedes sls-old.jpeg',
   },
   {
     id: 2,
@@ -66,7 +66,7 @@ export const allCars: ICarSchema[] = [
     miles: '24,000',
     city: 'Berlin',
     img: '/cars/mercedes sls.jpeg',
-  }
-]
+  },
+];
 
 export default allCars;
