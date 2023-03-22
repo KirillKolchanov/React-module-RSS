@@ -22,7 +22,7 @@ export default class Card extends Component<Props> {
             </div>
           </div>
           <div className="card-img_wrapper flex items-center h-72">
-            <img className="mt-6" src={car.img} alt="" />
+            <img className="mt-6 rounded" src={car.img} alt="" />
           </div>
           <p className="text-base mt-4">Fuel: {car.fuel}</p>
           <p className="text-base mt-2">Miles: {car.miles}</p>
