@@ -1,4 +1,3 @@
-import React, { JSXElementConstructor } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
 import About from './pages/About';
