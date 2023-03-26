@@ -5,6 +5,9 @@ import '../styles/pages/Forms.css';
 import { ICarSchema } from '../models';
 import Switcher from './Forms/Switcher';
 import Card from './Card';
+import TextInput from './Forms/TextInput';
+import NumberInput from './Forms/NumberInput';
+import Select from './Forms/Select';
 
 type MyProps = Record<string, never>;
 
@@ -172,18 +175,14 @@ export default class Forms extends Component<MyProps, MyState> {
             <form className="flex flex-col" onSubmit={this.onSubmit}>
               <h2 className="text-center font-bold">Car constructor</h2>
 
-              <select
-                defaultValue={''}
-                className="mt-5 rounded py-2 px-3 border-2 required"
+              <Select
+                defaultValue=""
+                classes="mt-5 rounded py-2 px-3 border-2 required"
                 placeholder="Select year:"
+                subject="Select make"
                 onChange={this.onMakeChange}
-                ref={this.carMakeRef}
-                required
-              >
-                <option value="" disabled>
-                  Select make:
-                </option>
-                {[
+                reference={this.carMakeRef}
+                options={[
                   'Aston Martin',
                   'Audi',
                   'Bmw',
@@ -191,25 +190,15 @@ export default class Forms extends Component<MyProps, MyState> {
                   'Mercedes',
                   'Porsche',
                   'Volkswagen',
-                ].map(
-                  (make: string): JSX.Element => (
-                    <option key={make} value={make}>
-                      {make}
-                    </option>
-                  )
-                )}
-              </select>
+                ]}
+              />
 
-              <input
-                className="mt-8 border-2 rounded py-2 px-3 required"
-                type="text"
+              <TextInput
+                classes="mt-8 border-2 rounded py-2 px-3 required"
                 placeholder="Car model"
                 name="carModel"
-                ref={this.carModelRef}
+                reference={this.carModelRef}
                 onChange={this.onModelChange}
-                data-testid="textInput"
-                // id={this.props.subject}
-                required
               />
 
               <div className="flex mt-8 items-center">
@@ -291,26 +280,22 @@ export default class Forms extends Component<MyProps, MyState> {
                 </label>
               </div>
 
-              <input
-                className="border-2 rounded py-2 px-3 mt-8"
-                type="number"
-                min="0"
+              <NumberInput
+                classes="border-2 rounded py-2 px-3 mt-8"
+                minNumber="0"
                 placeholder="Car mileage"
                 name="carMake"
-                ref={this.carMileageRef}
+                reference={this.carMileageRef}
                 onChange={this.onMileageChange}
-                required
               />
 
-              <input
-                className="border-2 rounded py-3 px-3 mt-8 text-xl"
-                type="number"
-                min="0"
+              <NumberInput
+                classes="border-2 rounded py-3 px-3 mt-8 text-xl"
+                minNumber="0"
                 placeholder="Car price $"
                 name="carPrice"
-                ref={this.carPriceRef}
+                reference={this.carPriceRef}
                 onChange={this.onPriceChange}
-                required
               />
 
               <div className="flex items-center mt-8">
