@@ -8,6 +8,10 @@ import Card from './Card';
 import TextInput from './Forms/TextInput';
 import NumberInput from './Forms/NumberInput';
 import Select from './Forms/Select';
+import DateInput from './Forms/DateInput';
+import FileInput from './Forms/FileInput';
+import Checkbox from './Forms/Checkbox';
+import Button from './Button';
 
 type MyProps = Record<string, never>;
 
@@ -59,17 +63,6 @@ export default class Forms extends Component<MyProps, MyState> {
       allFormCars: [],
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onMakeChange = this.onMakeChange.bind(this);
-    this.onModelChange = this.onModelChange.bind(this);
-    this.onYearChange = this.onYearChange.bind(this);
-    this.onPetrolChange = this.onPetrolChange.bind(this);
-    this.onDieselChange = this.onDieselChange.bind(this);
-    this.onElectroChange = this.onElectroChange.bind(this);
-    this.onPhotoChange = this.onPhotoChange.bind(this);
-    this.onMileageChange = this.onMileageChange.bind(this);
-    this.onPriceChange = this.onPriceChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
   }
 
@@ -101,32 +94,32 @@ export default class Forms extends Component<MyProps, MyState> {
     event.preventDefault();
   }
 
-  onMakeChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onMakeChange() {
     const carMake = this.carMakeRef.current?.value;
     this.setState({ carMake });
   }
 
-  onModelChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onModelChange() {
     const carModel = this.carModelRef.current?.value;
     this.setState({ carModel });
   }
 
-  onYearChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onYearChange() {
     const carYear = Number(this.carYearRef.current?.value?.substring(0, 4));
     this.setState({ carYear });
   }
 
-  onPetrolChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onPetrolChange() {
     const carFuel = this.carPetrolRef.current?.id;
     this.setState({ carFuel });
   }
 
-  onDieselChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onDieselChange() {
     const carFuel = this.carDieselRef.current?.id;
     this.setState({ carFuel });
   }
 
-  onElectroChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onElectroChange() {
     const carFuel = this.carElectroRef.current?.id;
     this.setState({ carFuel });
   }
@@ -138,12 +131,12 @@ export default class Forms extends Component<MyProps, MyState> {
     }
   }
 
-  onMileageChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onMileageChange() {
     const carMileage = this.carMileageRef.current?.value;
     this.setState({ carMileage });
   }
 
-  onPriceChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onPriceChange() {
     const carPrice = Number(this.carPriceRef.current?.value);
     this.setState({ carPrice });
   }
@@ -172,7 +165,7 @@ export default class Forms extends Component<MyProps, MyState> {
       <div>
         <div className="form_wrapper flex pb-20 bg-cover bg-center bg-no-repeat justify-end">
           <div className="p-5 mt-10 mr-56 form-floating xl:w-1/4 rounded dark:bg-slate-800 bg-white  bg-opacity-75">
-            <form className="flex flex-col" onSubmit={this.onSubmit}>
+            <form className="flex flex-col" onSubmit={this.onSubmit.bind(this)}>
               <h2 className="text-center font-bold">Car constructor</h2>
 
               <Select
@@ -180,7 +173,7 @@ export default class Forms extends Component<MyProps, MyState> {
                 classes="mt-5 rounded py-2 px-3 border-2 required"
                 placeholder="Select year:"
                 subject="Select make"
-                onChange={this.onMakeChange}
+                onChange={this.onMakeChange.bind(this)}
                 reference={this.carMakeRef}
                 options={[
                   'Aston Martin',
@@ -198,86 +191,66 @@ export default class Forms extends Component<MyProps, MyState> {
                 placeholder="Car model"
                 name="carModel"
                 reference={this.carModelRef}
-                onChange={this.onModelChange}
+                onChange={this.onModelChange.bind(this)}
               />
 
               <div className="flex mt-8 items-center">
-                <input
-                  type="radio"
+                <Switcher
                   id="petrol"
                   name="carFuel"
-                  ref={this.carPetrolRef}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  classes="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  reference={this.carPetrolRef}
                   defaultChecked={false}
-                  onChange={this.onPetrolChange}
-                  required
+                  onChange={this.onPetrolChange.bind(this)}
+                  subject="Petrol"
                 />
-                <label htmlFor="petrol" className="ml-2">
-                  <span className="block text-m font-medium ">Petrol</span>
-                </label>
-
-                <input
-                  type="radio"
+                <Switcher
                   id="diesel"
                   name="carFuel"
-                  ref={this.carDieselRef}
-                  className="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  reference={this.carDieselRef}
                   defaultChecked={false}
-                  onChange={this.onDieselChange}
+                  onChange={this.onDieselChange.bind(this)}
+                  subject="Petrol"
                 />
-                <label htmlFor="diesel" className="ml-2">
-                  <span className="block text-m font-medium ">Diesel</span>
-                </label>
-
-                <input
-                  type="radio"
+                <Switcher
                   id="electro"
                   name="carFuel"
-                  ref={this.carElectroRef}
-                  className="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  reference={this.carElectroRef}
                   defaultChecked={false}
-                  onChange={this.onElectroChange}
+                  onChange={this.onElectroChange.bind(this)}
+                  subject="Electro"
                 />
-                <label htmlFor="electro" className="ml-2">
-                  <span className="block text-m font-medium">Electro</span>
-                </label>
               </div>
 
               <div className="flex flex-col mt-8">
-                <label htmlFor="DataPicker" className="mb-2 font-medium">
-                  Select the year of production:
-                </label>
-                <input
-                  type="date"
-                  id="DataPicker"
+                <DateInput
+                  classes="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   name="DataPicker"
                   min="1990-01-01"
                   max="2023-01-01"
-                  ref={this.carYearRef}
-                  onChange={this.onYearChange}
-                  className="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  reference={this.carYearRef}
+                  onChange={this.onYearChange.bind(this)}
+                  subject="Select the year of production:"
                 />
               </div>
 
               <div className="flex flex-col mt-8">
-                <label htmlFor="DataPicker" className="mb-2 font-medium ">
-                  Choose a car photo:
-                  <input
-                    type="file"
-                    id="PhotoPicker"
-                    name="file"
-                    accept="image/png, image/gif, image/jpeg"
-                    className="block mt-2 w-full text-sm cursor-pointer
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                  file:bg-violet-50 file:text-violet-700
-                  hover:file:bg-violet-100"
-                    ref={this.carPhotoRef}
-                    onChange={this.onPhotoChange}
-                    required
-                  />
-                </label>
+                <FileInput
+                  id="PhotoPicker"
+                  name="file"
+                  classes="block mt-2 w-full text-sm cursor-pointer
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-full file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-violet-50 file:text-violet-700
+                          hover:file:bg-violet-100"
+                  accept="image/png, image/gif, image/jpeg"
+                  reference={this.carPhotoRef}
+                  onChange={this.onPhotoChange.bind(this)}
+                  subject="Choose a car photo:"
+                />
               </div>
 
               <NumberInput
@@ -286,7 +259,7 @@ export default class Forms extends Component<MyProps, MyState> {
                 placeholder="Car mileage"
                 name="carMake"
                 reference={this.carMileageRef}
-                onChange={this.onMileageChange}
+                onChange={this.onMileageChange.bind(this)}
               />
 
               <NumberInput
@@ -295,29 +268,24 @@ export default class Forms extends Component<MyProps, MyState> {
                 placeholder="Car price $"
                 name="carPrice"
                 reference={this.carPriceRef}
-                onChange={this.onPriceChange}
+                onChange={this.onPriceChange.bind(this)}
               />
 
               <div className="flex items-center mt-8">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="checkbox"
                   name="checkbox"
-                  ref={this.checkboxRef}
-                  className="mr-2 h-5 w-5 text-blue-600"
-                  required
+                  reference={this.checkboxRef}
+                  classes="mr-2 h-5 w-5 text-blue-600"
+                  subject="I consent to my personal data"
                 />
-                <label htmlFor="checkbox" className="text-xl">
-                  I consent to my personal data
-                </label>
               </div>
 
-              <button
+              <Button
                 type="submit"
-                className="mt-8 bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-700 text-3xl"
-              >
-                Submit
-              </button>
+                classes="mt-8 bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-700 text-3xl"
+                subject="Submit"
+              />
             </form>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-type TextInputProps = {
+type SelectProps = {
   defaultValue: string;
   classes: string;
   placeholder: string;
@@ -10,8 +10,8 @@ type TextInputProps = {
   options: string[];
 };
 
-class Select extends React.Component<TextInputProps> {
-  constructor(props: TextInputProps) {
+class Select extends React.Component<SelectProps> {
+  constructor(props: SelectProps) {
     super(props);
   }
 
