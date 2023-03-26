@@ -1,3 +1,7 @@
 .form_wrapper {
   background-image: url("/Bmw_m8.jpeg");
 }
+
+img {
+  height: inherit;
+}
