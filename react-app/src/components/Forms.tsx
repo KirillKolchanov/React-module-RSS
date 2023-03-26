@@ -168,13 +168,13 @@ export default class Forms extends Component<MyProps, MyState> {
     return (
       <div>
         <div className="form_wrapper flex pb-20 bg-cover bg-center bg-no-repeat justify-end">
-          <div className="p-10 mt-20 mr-56 form-floating xl:w-1/4 rounded dark:bg-slate-800 bg-white  bg-opacity-75">
+          <div className="p-5 mt-10 mr-56 form-floating xl:w-1/4 rounded dark:bg-slate-800 bg-white  bg-opacity-75">
             <form className="flex flex-col" onSubmit={this.onSubmit}>
               <h2 className="text-center font-bold">Car constructor</h2>
 
               <select
                 defaultValue={''}
-                className="mt-8 rounded py-2 px-3 border-2 required"
+                className="mt-5 rounded py-2 px-3 border-2 required"
                 placeholder="Select year:"
                 onChange={this.onMakeChange}
                 ref={this.carMakeRef}
