@@ -85,7 +85,7 @@ export default class Forms extends Component<MyProps, MyState> {
     this.clearForm = this.clearForm.bind(this);
   }
 
-  clearForm() {
+  clearForm(): void {
     if (
       this.carMakeRef.current &&
       this.carModelRef.current &&
@@ -119,7 +119,7 @@ export default class Forms extends Component<MyProps, MyState> {
     });
   }
 
-  checkValidation() {
+  checkValidation(): void | null {
     if (this.state.carMake?.length === 0) {
       this.setState({ make: false });
     }
@@ -166,7 +166,7 @@ export default class Forms extends Component<MyProps, MyState> {
     }
   }
 
-  cardAddition() {
+  cardAddition(): void {
     const newArr = [...this.state.allFormCars];
     newArr.push({
       make: this.state.carMake ? this.state.carMake : '',
@@ -191,58 +191,58 @@ export default class Forms extends Component<MyProps, MyState> {
     this.clearForm();
   }
 
-  onMakeChange() {
+  onMakeChange(): void {
     const carMake = this.carMakeRef.current?.value;
     this.setState({ carMake, make: true });
   }
 
-  onModelChange() {
+  onModelChange(): void {
     const carModel = this.carModelRef.current?.value;
     this.setState({ carModel, model: true });
   }
 
-  onYearChange() {
+  onYearChange(): void {
     const carYear = Number(this.carYearRef.current?.value?.substring(0, 4));
     this.setState({ carYear, date: true });
   }
 
-  onPetrolChange() {
+  onPetrolChange(): void {
     const carFuel = this.carPetrolRef.current?.id;
     this.setState({ carFuel, fuel: true });
   }
 
-  onDieselChange() {
+  onDieselChange(): void {
     const carFuel = this.carDieselRef.current?.id;
     this.setState({ carFuel, fuel: true });
   }
 
-  onElectroChange() {
+  onElectroChange(): void {
     const carFuel = this.carElectroRef.current?.id;
     this.setState({ carFuel, fuel: true });
   }
 
-  onPhotoChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  onPhotoChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
     const carPhoto: HTMLInputElement | null = this.carPhotoRef.current;
     if (event.target.name === 'file' && carPhoto?.files && carPhoto.files.length) {
       this.setState({ carPhoto: URL.createObjectURL(carPhoto.files[0]), file: true });
     }
   }
 
-  onMileageChange() {
+  onMileageChange(): void {
     const carMileage = this.carMileageRef.current?.value;
     this.setState({ carMileage, mileage: true });
   }
 
-  onPriceChange() {
+  onPriceChange(): void {
     const carPrice = Number(this.carPriceRef.current?.value);
     this.setState({ carPrice, price: true });
   }
 
-  onCheckboxChange() {
+  onCheckboxChange(): void {
     this.setState({ checkbox: true });
   }
 
-  onSubmit(event: React.FormEvent<HTMLFormElement | HTMLSelectElement>) {
+  onSubmit(event: React.FormEvent<HTMLFormElement | HTMLSelectElement>): void {
     event.preventDefault();
 
     if (this.checkValidation() === null) {
