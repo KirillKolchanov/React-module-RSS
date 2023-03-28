@@ -12,6 +12,8 @@ import DateInput from './Forms/DateInput';
 import FileInput from './Forms/FileInput';
 import Checkbox from './Forms/Checkbox';
 import Button from './Button';
+import warnings from '../utils/warnings';
+import WarningMessage from './Forms/WarningMessage';
 
 type MyProps = Record<string, never>;
 
@@ -24,6 +26,14 @@ type MyState = {
   carMileage: string | undefined;
   carPrice: number | undefined;
   allFormCars: ICarSchema[];
+  make: boolean;
+  model: boolean;
+  fuel: boolean;
+  date: boolean;
+  file: boolean;
+  mileage: boolean;
+  price: boolean;
+  checkbox: boolean;
 };
 
 export default class Forms extends Component<MyProps, MyState> {
@@ -61,8 +71,17 @@ export default class Forms extends Component<MyProps, MyState> {
       carMileage: '',
       carPrice: 0,
       allFormCars: [],
+      make: true,
+      model: true,
+      fuel: true,
+      date: true,
+      file: true,
+      mileage: true,
+      price: true,
+      checkbox: true,
     };
 
+    this.checkValidation = this.checkValidation.bind(this);
     this.clearForm = this.clearForm.bind(this);
   }
 
@@ -88,63 +107,66 @@ export default class Forms extends Component<MyProps, MyState> {
       this.carPriceRef.current.value = '';
       this.checkboxRef.current.checked = false;
     }
+
+    this.setState({
+      carMake: '',
+      carModel: '',
+      carFuel: '',
+      carYear: 0,
+      carPhoto: '',
+      carMileage: '',
+      carPrice: 0,
+    });
   }
 
-  handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-  }
+  checkValidation() {
+    if (this.state.carMake?.length === 0) {
+      this.setState({ make: false });
+    }
 
-  onMakeChange() {
-    const carMake = this.carMakeRef.current?.value;
-    this.setState({ carMake });
-  }
+    if (this.state.carModel?.length === 0) {
+      this.setState({ model: false });
+    }
 
-  onModelChange() {
-    const carModel = this.carModelRef.current?.value;
-    this.setState({ carModel });
-  }
+    if (this.state.carFuel?.length === 0) {
+      this.setState({ fuel: false });
+    }
 
-  onYearChange() {
-    const carYear = Number(this.carYearRef.current?.value?.substring(0, 4));
-    this.setState({ carYear });
-  }
+    if (!this.state.carYear) {
+      this.setState({ date: false });
+    }
 
-  onPetrolChange() {
-    const carFuel = this.carPetrolRef.current?.id;
-    this.setState({ carFuel });
-  }
+    if (!this.state.carPhoto) {
+      this.setState({ file: false });
+    }
 
-  onDieselChange() {
-    const carFuel = this.carDieselRef.current?.id;
-    this.setState({ carFuel });
-  }
+    if (!this.state.carMileage) {
+      this.setState({ mileage: false });
+    }
 
-  onElectroChange() {
-    const carFuel = this.carElectroRef.current?.id;
-    this.setState({ carFuel });
-  }
+    if (!this.state.carPrice) {
+      this.setState({ price: false });
+    }
 
-  onPhotoChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const carPhoto: HTMLInputElement | null = this.carPhotoRef.current;
-    if (event.target.name === 'file' && carPhoto?.files && carPhoto.files.length) {
-      this.setState({ carPhoto: URL.createObjectURL(carPhoto.files[0]) });
+    if (this.checkboxRef.current?.checked === false) {
+      this.setState({ checkbox: false });
+    }
+
+    if (
+      this.state.carMake?.length === 0 ||
+      this.state.carModel?.length === 0 ||
+      this.state.carFuel?.length === 0 ||
+      !this.state.carYear ||
+      !this.state.carPhoto ||
+      !this.state.carMileage ||
+      !this.state.carPrice ||
+      this.checkboxRef.current?.checked === false
+    ) {
+      return null;
     }
   }
 
-  onMileageChange() {
-    const carMileage = this.carMileageRef.current?.value;
-    this.setState({ carMileage });
-  }
-
-  onPriceChange() {
-    const carPrice = Number(this.carPriceRef.current?.value);
-    this.setState({ carPrice });
-  }
-
-  onSubmit(event: React.FormEvent<HTMLFormElement | HTMLSelectElement>) {
-    event.preventDefault();
-    this.clearForm();
-
+  cardAddition() {
     const newArr = [...this.state.allFormCars];
     newArr.push({
       make: this.state.carMake ? this.state.carMake : '',
@@ -157,7 +179,77 @@ export default class Forms extends Component<MyProps, MyState> {
     });
     this.setState({
       allFormCars: newArr,
+      make: true,
+      model: true,
+      fuel: true,
+      date: true,
+      file: true,
+      mileage: true,
+      price: true,
+      checkbox: true,
     });
+    this.clearForm();
+  }
+
+  onMakeChange() {
+    const carMake = this.carMakeRef.current?.value;
+    this.setState({ carMake, make: true });
+  }
+
+  onModelChange() {
+    const carModel = this.carModelRef.current?.value;
+    this.setState({ carModel, model: true });
+  }
+
+  onYearChange() {
+    const carYear = Number(this.carYearRef.current?.value?.substring(0, 4));
+    this.setState({ carYear, date: true });
+  }
+
+  onPetrolChange() {
+    const carFuel = this.carPetrolRef.current?.id;
+    this.setState({ carFuel, fuel: true });
+  }
+
+  onDieselChange() {
+    const carFuel = this.carDieselRef.current?.id;
+    this.setState({ carFuel, fuel: true });
+  }
+
+  onElectroChange() {
+    const carFuel = this.carElectroRef.current?.id;
+    this.setState({ carFuel, fuel: true });
+  }
+
+  onPhotoChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const carPhoto: HTMLInputElement | null = this.carPhotoRef.current;
+    if (event.target.name === 'file' && carPhoto?.files && carPhoto.files.length) {
+      this.setState({ carPhoto: URL.createObjectURL(carPhoto.files[0]), file: true });
+    }
+  }
+
+  onMileageChange() {
+    const carMileage = this.carMileageRef.current?.value;
+    this.setState({ carMileage, mileage: true });
+  }
+
+  onPriceChange() {
+    const carPrice = Number(this.carPriceRef.current?.value);
+    this.setState({ carPrice, price: true });
+  }
+
+  onCheckboxChange() {
+    this.setState({ checkbox: true });
+  }
+
+  onSubmit(event: React.FormEvent<HTMLFormElement | HTMLSelectElement>) {
+    event.preventDefault();
+
+    if (this.checkValidation() === null) {
+      return;
+    }
+
+    this.cardAddition();
   }
 
   render(): JSX.Element {
@@ -184,6 +276,8 @@ export default class Forms extends Component<MyProps, MyState> {
                   'Porsche',
                   'Volkswagen',
                 ]}
+                valid={this.state.make}
+                warningMessage={warnings.make.emptyInput}
               />
 
               <TextInput
@@ -192,9 +286,17 @@ export default class Forms extends Component<MyProps, MyState> {
                 name="carModel"
                 reference={this.carModelRef}
                 onChange={this.onModelChange.bind(this)}
+                valid={this.state.model}
+                warningMessage={warnings.model.emptyInput}
               />
 
-              <div className="flex mt-8 items-center">
+              <div
+                className={
+                  this.state.fuel
+                    ? 'flex mt-8 items-center'
+                    : 'flex mt-8 items-center p-2 border-2 border-red-500'
+                }
+              >
                 <Switcher
                   id="petrol"
                   name="carFuel"
@@ -223,6 +325,9 @@ export default class Forms extends Component<MyProps, MyState> {
                   subject="Electro"
                 />
               </div>
+              {this.state.fuel ? null : (
+                <WarningMessage valid={this.state.fuel}>{warnings.fuel.emptyInput}</WarningMessage>
+              )}
 
               <div className="flex flex-col mt-8">
                 <DateInput
@@ -233,10 +338,18 @@ export default class Forms extends Component<MyProps, MyState> {
                   reference={this.carYearRef}
                   onChange={this.onYearChange.bind(this)}
                   subject="Select the year of production:"
+                  valid={this.state.date}
+                  warningMessage={warnings.year.emptyInput}
                 />
               </div>
 
-              <div className="flex flex-col mt-8">
+              <div
+                className={
+                  this.state.file
+                    ? 'flex flex-col mt-8'
+                    : `flex flex-col mt-8 p-2 border-2 border-red-500`
+                }
+              >
                 <FileInput
                   id="PhotoPicker"
                   name="file"
@@ -250,6 +363,8 @@ export default class Forms extends Component<MyProps, MyState> {
                   reference={this.carPhotoRef}
                   onChange={this.onPhotoChange.bind(this)}
                   subject="Choose a car photo:"
+                  valid={this.state.file}
+                  warningMessage={warnings.file.emptyInput}
                 />
               </div>
 
@@ -260,6 +375,8 @@ export default class Forms extends Component<MyProps, MyState> {
                 name="carMake"
                 reference={this.carMileageRef}
                 onChange={this.onMileageChange.bind(this)}
+                valid={this.state.mileage}
+                warningMessage={warnings.mileage.emptyInput}
               />
 
               <NumberInput
@@ -269,6 +386,8 @@ export default class Forms extends Component<MyProps, MyState> {
                 name="carPrice"
                 reference={this.carPriceRef}
                 onChange={this.onPriceChange.bind(this)}
+                valid={this.state.price}
+                warningMessage={warnings.price.emptyInput}
               />
 
               <div className="flex items-center mt-8">
@@ -276,10 +395,17 @@ export default class Forms extends Component<MyProps, MyState> {
                   id="checkbox"
                   name="checkbox"
                   reference={this.checkboxRef}
-                  classes="mr-2 h-5 w-5 text-blue-600"
+                  classes="mr-2 h-5 w-5 text-blue-600 border-5"
                   subject="I consent to my personal data"
+                  onChange={this.onCheckboxChange.bind(this)}
+                  valid={this.state.checkbox}
                 />
               </div>
+              {this.state.checkbox ? null : (
+                <WarningMessage valid={this.state.checkbox}>
+                  {warnings.checkbox.emptyInput}
+                </WarningMessage>
+              )}
 
               <Button
                 type="submit"

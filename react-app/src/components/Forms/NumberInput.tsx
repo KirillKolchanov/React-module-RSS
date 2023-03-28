@@ -1,4 +1,5 @@
 import React from 'react';
+import WarningMessage from './WarningMessage';
 
 type NumberInputProps = {
   classes: string;
@@ -7,6 +8,8 @@ type NumberInputProps = {
   minNumber: string;
   reference: React.RefObject<HTMLInputElement>;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  warningMessage: string;
+  valid: boolean;
 };
 
 class NumberInput extends React.Component<NumberInputProps> {
@@ -15,19 +18,22 @@ class NumberInput extends React.Component<NumberInputProps> {
   }
 
   render() {
-    const { classes, placeholder, name, minNumber, reference, onChange } = this.props;
+    const { classes, placeholder, name, minNumber, reference, onChange, valid, warningMessage } =
+      this.props;
 
     return (
-      <input
-        className={classes}
-        type="number"
-        placeholder={placeholder}
-        name={name}
-        min={minNumber}
-        ref={reference}
-        onChange={onChange}
-        required
-      />
+      <>
+        <input
+          className={valid ? classes : `${classes} border-red-500`}
+          type="number"
+          placeholder={placeholder}
+          name={name}
+          min={minNumber}
+          ref={reference}
+          onChange={onChange}
+        />
+        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
+      </>
     );
   }
 }

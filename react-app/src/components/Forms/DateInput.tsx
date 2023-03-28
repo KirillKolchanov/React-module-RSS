@@ -1,4 +1,5 @@
 import React from 'react';
+import WarningMessage from './WarningMessage';
 
 type DateInputProps = {
   classes: string;
@@ -8,6 +9,8 @@ type DateInputProps = {
   reference: React.RefObject<HTMLInputElement>;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   subject: string;
+  warningMessage: string;
+  valid: boolean;
 };
 
 class DateInput extends React.Component<DateInputProps> {
@@ -16,7 +19,8 @@ class DateInput extends React.Component<DateInputProps> {
   }
 
   render() {
-    const { classes, min, max, name, reference, onChange, subject } = this.props;
+    const { classes, min, max, name, reference, onChange, subject, valid, warningMessage } =
+      this.props;
 
     return (
       <>
@@ -24,7 +28,7 @@ class DateInput extends React.Component<DateInputProps> {
           {subject}
         </label>
         <input
-          className={classes}
+          className={valid ? classes : `${classes} border-red-500`}
           type="date"
           name={name}
           min={min}
@@ -32,6 +36,7 @@ class DateInput extends React.Component<DateInputProps> {
           ref={reference}
           onChange={onChange}
         />
+        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
       </>
     );
   }

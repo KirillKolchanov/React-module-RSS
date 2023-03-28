@@ -28,7 +28,6 @@ class Switcher extends React.Component<SwitcherProps> {
           ref={reference}
           defaultChecked={defaultChecked}
           onChange={onChange}
-          required
         />
         <label htmlFor={id} className="ml-2">
           <span className="block text-m font-medium">{subject}</span>

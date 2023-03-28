@@ -1,4 +1,5 @@
 import React from 'react';
+import WarningMessage from './WarningMessage';
 
 type TextInputProps = {
   classes: string;
@@ -6,6 +7,8 @@ type TextInputProps = {
   name: string;
   reference: React.RefObject<HTMLInputElement>;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  warningMessage: string;
+  valid: boolean;
 };
 
 class TextInput extends React.Component<TextInputProps> {
@@ -14,18 +17,20 @@ class TextInput extends React.Component<TextInputProps> {
   }
 
   render() {
-    const { classes, placeholder, name, reference, onChange } = this.props;
+    const { classes, placeholder, name, reference, onChange, valid, warningMessage } = this.props;
 
     return (
-      <input
-        className={classes}
-        type="text"
-        placeholder={placeholder}
-        name={name}
-        ref={reference}
-        onChange={onChange}
-        required
-      />
+      <>
+        <input
+          className={valid ? classes : `${classes} border-red-500`}
+          type="text"
+          placeholder={placeholder}
+          name={name}
+          ref={reference}
+          onChange={onChange}
+        />
+        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
+      </>
     );
   }
 }
