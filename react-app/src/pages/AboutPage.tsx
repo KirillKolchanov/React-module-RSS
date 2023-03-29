@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 
 import '../styles/pages/About.css';
 
-export default class About extends Component {
+export default class AboutPage extends Component {
   render(): JSX.Element {
     return (
       <>

@@ -1,16 +1,18 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import About from './pages/About';
-import Home from './pages/Home';
-import PageNotFound from './pages/PageNotFound';
+import AboutPage from './pages/AboutPage';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import FormsPage from './pages/FormsPage';
 
 function App(): JSX.Element {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/home" element={<Navigate replace to="/" />} />
-      <Route path="about" element={<About />} />
-      <Route path="/404" element={<PageNotFound />} />
+      <Route path="about" element={<AboutPage />} />
+      <Route path="forms" element={<FormsPage />} />
+      <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate replace to="/404" />} />
     </Routes>
   );

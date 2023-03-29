@@ -8,6 +8,8 @@ export default class Navigation extends Component {
         <h2>
           {window.location.pathname === '/'
             ? 'Home page'
+            : window.location.pathname === '/forms'
+            ? 'Forms page'
             : window.location.pathname === '/about'
             ? 'About page'
             : 'Error page'}
@@ -15,6 +17,9 @@ export default class Navigation extends Component {
         <div className="flex gap-10">
           <Link className="text-2xl" to={'/'}>
             Home
+          </Link>
+          <Link className="text-2xl" to={'/forms'}>
+            Forms
           </Link>
           <Link className="text-2xl" to={'/about'}>
             About us

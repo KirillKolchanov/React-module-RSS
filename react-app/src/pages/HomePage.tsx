@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import Navigation from '../components/Navigation';
+import SearchBar from '../components/SearchBar';
+import Cards from '../components/Cards';
 
-export default class About extends Component {
+export default class AboutPage extends Component {
   render(): JSX.Element {
     return (
       <>
         <Navigation />
-        <h1 className="mt-12 ml-12">Error 404. Page not found!</h1>
+        <SearchBar />
+        <Cards />
       </>
     );
   }

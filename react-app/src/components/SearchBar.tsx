@@ -21,7 +21,7 @@ export default class SearchBar extends Component<Record<string, never>, State> {
           onChange={(event) => this.setState({ searchValue: event.target.value })}
         />
         <button
-          className="top-0 right-0 px-4 py-2 bg-blue-500 text-white rounded-md
+          className="ml-2 top-0 right-0 px-4 py-2 bg-blue-500 text-white rounded-md
            hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           onClick={() => localStorage.setItem('searchValue', this.state.searchValue)}
         >
