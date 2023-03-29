@@ -313,7 +313,7 @@ export default class Forms extends Component<MyProps, MyState> {
                   reference={this.carDieselRef}
                   defaultChecked={false}
                   onChange={this.onDieselChange.bind(this)}
-                  subject="Petrol"
+                  subject="Diesel"
                 />
                 <Switcher
                   id="electro"
