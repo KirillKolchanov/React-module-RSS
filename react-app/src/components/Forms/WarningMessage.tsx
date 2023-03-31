@@ -5,23 +5,21 @@ type MyProps = {
   valid: boolean;
 };
 
-type MyState = Record<string, never>;
+const WarningMessage = ({ children, valid }: MyProps): JSX.Element => {
+  const cls = {
+    baseClass: ``,
+    validClass: `text-transparent`,
+    invalidClass: `text-red-700`,
+  };
 
-export default class WarningMessage extends Component<MyProps, MyState> {
-  render(): JSX.Element {
-    const cls = {
-      baseClass: ``,
-      validClass: `text-transparent`,
-      invalidClass: `text-red-700`,
-    };
+  const isvalid = valid;
+  const classes = `${cls.baseClass} ${isvalid ? cls.validClass : cls.invalidClass}`;
 
-    const valid = this.props.valid;
-    const classes = `${cls.baseClass} ${valid ? cls.validClass : cls.invalidClass}`;
+  return (
+    <p className={classes} data-testid="validationWarning">
+      {children}
+    </p>
+  );
+};
 
-    return (
-      <p className={classes} data-testid="validationWarning">
-        {this.props.children}
-      </p>
-    );
-  }
-}
+export default WarningMessage;
