@@ -1,42 +1,33 @@
 import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type CheckboxProps = {
-  id: string;
-  name: string;
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
   subject: string;
-  reference: React.RefObject<HTMLInputElement>;
-  valid: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  text: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class Checkbox extends React.Component<CheckboxProps> {
-  constructor(props: CheckboxProps) {
-    super(props);
-  }
+const Checkbox = ({ form, classes, subject, onChange, text }: CheckboxProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
-  render() {
-    const { id, name, classes, subject, reference, valid, onChange } = this.props;
-
-    return (
-      <>
-        <input
-          type="checkbox"
-          id={id}
-          name={name}
-          ref={reference}
-          className={classes}
-          onChange={onChange}
-        />
-        <label
-          htmlFor={id}
-          className={valid ? 'text-xl' : 'text-xl border-2 border-red-500 px-2 py-2'}
-        >
-          {subject}
-        </label>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <input
+        type="checkbox"
+        className={classes}
+        {...register(subject, {
+          required: 'Checkbox is required',
+          onChange: onChange,
+        })}
+      />
+      <label>{text}</label>
+    </>
+  );
+};
 
 export default Checkbox;
