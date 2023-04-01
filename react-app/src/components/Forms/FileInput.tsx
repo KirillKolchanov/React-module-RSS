@@ -24,11 +24,11 @@ const FileInput = ({
   } = form;
   return (
     <>
-      <label htmlFor="DataPicker" className="mt-8 mb-2 font-medium">
+      <label htmlFor="DataPicker" className="mt-8 font-medium">
         {text}
         <input
           type="file"
-          className={classes}
+          className={errors[subject] ? `${classes} border-2 border-red-500 p-1 rounded` : classes}
           accept={accept}
           {...register(subject, {
             required: 'Please, select an image',
@@ -36,6 +36,7 @@ const FileInput = ({
           })}
         />
       </label>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
     </>
   );
 };

@@ -22,7 +22,7 @@ const DateInput = ({ form, classes, subject, text, min, max, onChange }: DateInp
         {text}
       </label>
       <input
-        className={classes}
+        className={errors[subject] ? `${classes} border-red-500` : classes}
         type="date"
         min={min}
         max={max}
@@ -30,6 +30,7 @@ const DateInput = ({ form, classes, subject, text, min, max, onChange }: DateInp
           required: 'Select a date of production',
         })}
       />
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
     </>
   );
 };

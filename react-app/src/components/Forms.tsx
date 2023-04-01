@@ -263,6 +263,8 @@ const Forms = (): JSX.Element => {
 
   const onSubmit = (data: object): void => {
     console.log(data);
+    alert('The card is created!');
+    reset();
   };
 
   return (
@@ -295,29 +297,13 @@ const Forms = (): JSX.Element => {
               subject="Model"
             />
 
-            <div className={'flex mt-8 items-center'}>
-              <Switcher
-                form={form}
-                name="Fuel"
-                classes="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
-                defaultChecked={false}
-                value="Petrol"
-              />
-              <Switcher
-                form={form}
-                name="Fuel"
-                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
-                defaultChecked={false}
-                value="Diesel"
-              />
-              <Switcher
-                form={form}
-                name="Fuel"
-                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
-                defaultChecked={false}
-                value="Electro"
-              />
-            </div>
+            <Switcher
+              form={form}
+              name="Fuel"
+              classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
+              defaultChecked={false}
+              values={['Petrol', 'Diesel', 'Electro']}
+            />
 
             <div className="flex flex-col mt-8">
               <DateInput
@@ -358,21 +344,20 @@ const Forms = (): JSX.Element => {
               placeholder="Car price $"
               minNumber="0"
               subject="Price"
-              requare="Please, enter a mileage"
+              requare="Please, enter a price"
             />
 
-            <div className="flex items-center mt-8">
-              <Checkbox
-                form={form}
-                subject="checkbox"
-                classes="mr-2 h-5 w-5 text-blue-600 border-5 cursor-pointer"
-                text="I consent to my personal data"
-              />
-            </div>
+            <Checkbox
+              form={form}
+              subject="checkbox"
+              classes="mr-2 h-5 w-5 text-blue-600 border-5 cursor-pointer"
+              text="I consent to my personal data"
+            />
 
             <input
               type="submit"
-              className="mt-8 bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-700 text-3xl"
+              value="Submit"
+              className="mt-8 bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-700 text-3xl cursor-pointer"
             />
           </form>
         </div>

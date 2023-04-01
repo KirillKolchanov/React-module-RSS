@@ -30,7 +30,7 @@ const Select = ({
           required: 'Please, select a make of the car',
           onChange: onChange,
         })}
-        className={classes}
+        className={errors[subject] ? `${classes} border-red-500` : classes}
         defaultValue={defaultValue}
         placeholder={`Select ${subject}`}
       >
@@ -45,6 +45,7 @@ const Select = ({
           )
         )}
       </select>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
     </div>
   );
 };

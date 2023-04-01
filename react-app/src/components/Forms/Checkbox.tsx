@@ -17,15 +17,24 @@ const Checkbox = ({ form, classes, subject, onChange, text }: CheckboxProps): JS
 
   return (
     <>
-      <input
-        type="checkbox"
-        className={classes}
-        {...register(subject, {
-          required: 'Checkbox is required',
-          onChange: onChange,
-        })}
-      />
-      <label>{text}</label>
+      <div
+        className={
+          errors[subject]
+            ? 'flex items-center mt-8 p-1 border-2 border-red-500'
+            : 'flex items-center mt-8'
+        }
+      >
+        <input
+          type="checkbox"
+          className={classes}
+          {...register(subject, {
+            required: 'Checkbox is required',
+            onChange: onChange,
+          })}
+        />
+        <label>{text}</label>
+      </div>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
     </>
   );
 };

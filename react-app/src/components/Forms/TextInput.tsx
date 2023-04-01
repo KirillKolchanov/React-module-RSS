@@ -27,11 +27,12 @@ const TextInput = ({
           required: 'Please, enter a model of the car',
           onChange: onChange,
         })}
-        className={classes}
+        className={errors[subject] ? `${classes} border-red-500` : classes}
         type="text"
         placeholder={placeholder}
         onChange={onChange}
       />
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
     </>
   );
 };
