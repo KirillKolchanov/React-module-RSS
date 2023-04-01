@@ -1,40 +1,37 @@
 import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type SwitcherProps = {
-  id: string;
+  form: UseFormReturn<FieldValues, unknown>;
   name: string;
   classes: string;
-  reference: React.RefObject<HTMLInputElement>;
   defaultChecked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  subject: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
 
-class Switcher extends React.Component<SwitcherProps> {
-  constructor(props: SwitcherProps) {
-    super(props);
-  }
-
-  render() {
-    const { id, name, classes, reference, defaultChecked, onChange, subject } = this.props;
-
-    return (
-      <>
-        <input
-          type="radio"
-          id={id}
-          name={name}
-          className={classes}
-          ref={reference}
-          defaultChecked={defaultChecked}
-          onChange={onChange}
-        />
-        <label htmlFor={id} className="ml-2">
-          <span className="block text-m font-medium">{subject}</span>
-        </label>
-      </>
-    );
-  }
-}
+const Switcher = ({ form, name, classes, value, defaultChecked, onChange }: SwitcherProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <input
+        type="radio"
+        className={classes}
+        value={value}
+        defaultChecked={defaultChecked}
+        {...register(name, {
+          required: 'Please choose the fuel type',
+          onChange: onChange,
+        })}
+      />
+      <label htmlFor={name} className="ml-2">
+        <span className="block text-m font-medium">{value}</span>
+      </label>
+    </>
+  );
+};
 
 export default Switcher;

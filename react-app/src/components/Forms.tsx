@@ -295,51 +295,34 @@ const Forms = (): JSX.Element => {
               subject="Model"
             />
 
-            {/*
-            <div
-              className={
-                this.state.fuel
-                  ? 'flex mt-8 items-center'
-                  : 'flex mt-8 items-center p-2 border-2 border-red-500'
-              }
-            >
+            <div className={'flex mt-8 items-center'}>
               <Switcher
-                id="petrol"
-                name="carFuel"
-                classes="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                reference={this.carPetrolRef}
+                form={form}
+                name="Fuel"
+                classes="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
                 defaultChecked={false}
-                onChange={this.onPetrolChange.bind(this)}
-                subject="Petrol"
+                value="Petrol"
               />
               <Switcher
-                id="diesel"
-                name="carFuel"
-                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                reference={this.carDieselRef}
+                form={form}
+                name="Fuel"
+                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
                 defaultChecked={false}
-                onChange={this.onDieselChange.bind(this)}
-                subject="Diesel"
+                value="Diesel"
               />
               <Switcher
-                id="electro"
-                name="carFuel"
-                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                reference={this.carElectroRef}
+                form={form}
+                name="Fuel"
+                classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
                 defaultChecked={false}
-                onChange={this.onElectroChange.bind(this)}
-                subject="Electro"
+                value="Electro"
               />
             </div>
-            {this.state.fuel ? null : (
-              <WarningMessage valid={this.state.fuel}>{warnings.fuel.emptyInput}</WarningMessage>
-            )}
-            */}
 
             <div className="flex flex-col mt-8">
               <DateInput
                 form={form}
-                classes="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                classes="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline cursor-pointer"
                 subject="Date"
                 min="1990-01-01"
                 max="2023-01-01"
@@ -382,7 +365,7 @@ const Forms = (): JSX.Element => {
               <Checkbox
                 form={form}
                 subject="checkbox"
-                classes="mr-2 h-5 w-5 text-blue-600 border-5"
+                classes="mr-2 h-5 w-5 text-blue-600 border-5 cursor-pointer"
                 text="I consent to my personal data"
               />
             </div>

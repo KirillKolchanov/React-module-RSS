@@ -24,7 +24,7 @@ const FileInput = ({
   } = form;
   return (
     <>
-      <label htmlFor="DataPicker" className="mt-8 mb-2 font-medium ">
+      <label htmlFor="DataPicker" className="mt-8 mb-2 font-medium">
         {text}
         <input
           type="file"
