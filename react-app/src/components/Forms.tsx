@@ -334,37 +334,27 @@ const Forms = (): JSX.Element => {
             {this.state.fuel ? null : (
               <WarningMessage valid={this.state.fuel}>{warnings.fuel.emptyInput}</WarningMessage>
             )}
+            */}
 
             <div className="flex flex-col mt-8">
               <DateInput
+                form={form}
                 classes="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                name="DataPicker"
+                subject="Date"
                 min="1990-01-01"
                 max="2023-01-01"
-                reference={this.carYearRef}
-                onChange={this.onYearChange.bind(this)}
-                subject="Select the year of production:"
-                valid={this.state.date}
-                warningMessage={warnings.year.emptyInput}
+                text="Select the year of production:"
               />
             </div>
 
-            <div
-              className={
-                this.state.file
-                  ? 'flex flex-col mt-8'
-                  : `flex flex-col mt-8 p-2 border-2 border-red-500`
-              }
-            >
-          */}
             <FileInput
               form={form}
               classes="block mt-2 w-full text-sm cursor-pointer
-                          file:mr-4 file:py-2 file:px-4
-                          file:rounded-full file:border-0
-                          file:text-sm file:font-semibold
-                          file:bg-violet-50 file:text-violet-700
-                          hover:file:bg-violet-100"
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-violet-700
+              hover:file:bg-violet-100"
               accept="image/png, image/gif, image/jpeg"
               subject="File"
               text="Choose a car photo:"
