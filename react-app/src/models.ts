@@ -1,9 +1,9 @@
 export interface ICarSchema {
   make: string;
   model: string;
-  price: number;
-  age: number;
   fuel: string;
-  miles: string;
+  age: number;
   img: string;
+  price: number;
+  miles: number;
 }

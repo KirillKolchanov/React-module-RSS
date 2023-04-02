@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 
 import '../styles/pages/Forms.css';
@@ -45,6 +45,8 @@ const Forms = (): JSX.Element => {
     reset,
     formState: { isSubmitSuccessful, isDirty, errors },
   } = form;
+
+  const [cars, setCars] = useState<ICarSchema[]>([]);
 
   // carMakeRef: RefObject<HTMLSelectElement>;
   // carModelRef: RefObject<HTMLInputElement>;
@@ -261,10 +263,26 @@ const Forms = (): JSX.Element => {
   //   this.cardAddition();
   // }
 
-  const onSubmit = (data: object): void => {
+  const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues): void => {
+    const fileData = new Blob([data.file[0]]);
     console.log(data);
+    setCars((prevState: ICarSchema[]): ICarSchema[] => {
+      return [
+        ...prevState,
+        {
+          make: data.make,
+          model: data.model,
+          fuel: data.fuel,
+          age: +data.date.substring(0, 4),
+          img: URL.createObjectURL(fileData),
+          miles: data.mileage,
+          price: data.price,
+        },
+      ];
+    });
     alert('The card is created!');
     reset();
+    console.log(cars);
   };
 
   return (
@@ -277,7 +295,7 @@ const Forms = (): JSX.Element => {
             <Select
               form={form}
               classes="mt-2 rounded py-2 px-3 border-2 required"
-              subject="Make"
+              subject="make"
               options={[
                 'Aston Martin',
                 'Audi',
@@ -294,12 +312,12 @@ const Forms = (): JSX.Element => {
               form={form}
               classes="mt-8 border-2 rounded py-2 px-3 required"
               placeholder="Car model"
-              subject="Model"
+              subject="model"
             />
 
             <Switcher
               form={form}
-              name="Fuel"
+              name="fuel"
               classes="ml-4 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 cursor-pointer"
               defaultChecked={false}
               values={['Petrol', 'Diesel', 'Electro']}
@@ -309,7 +327,7 @@ const Forms = (): JSX.Element => {
               <DateInput
                 form={form}
                 classes="w-full px-3 py-2 leading-tight  border rounded shadow appearance-none focus:outline-none focus:shadow-outline cursor-pointer"
-                subject="Date"
+                subject="date"
                 min="1990-01-01"
                 max="2023-01-01"
                 text="Select the year of production:"
@@ -325,7 +343,7 @@ const Forms = (): JSX.Element => {
               file:bg-violet-50 file:text-violet-700
               hover:file:bg-violet-100"
               accept="image/png, image/gif, image/jpeg"
-              subject="File"
+              subject="file"
               text="Choose a car photo:"
             />
 
@@ -334,7 +352,7 @@ const Forms = (): JSX.Element => {
               classes="border-2 rounded py-2 px-3 mt-8"
               minNumber="0"
               placeholder="Car mileage"
-              subject="Mileage"
+              subject="mileage"
               requare="Please, enter a mileage"
             />
 
@@ -343,7 +361,7 @@ const Forms = (): JSX.Element => {
               classes="border-2 rounded py-3 px-3 mt-8 text-xl"
               placeholder="Car price $"
               minNumber="0"
-              subject="Price"
+              subject="price"
               requare="Please, enter a price"
             />
 
@@ -363,15 +381,15 @@ const Forms = (): JSX.Element => {
         </div>
       </div>
 
-      {/* {this.state.allFormCars.length !== 0 ? (
+      {cars.length !== 0 ? (
         <div className="mt-12 mb-12">
           <div className="flex justify-center gap-16 flex-wrap">
-            {this.state.allFormCars?.map((car: ICarSchema, index) => (
+            {cars.map((car: ICarSchema, index) => (
               <Card key={index} car={car} />
             ))}
           </div>
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

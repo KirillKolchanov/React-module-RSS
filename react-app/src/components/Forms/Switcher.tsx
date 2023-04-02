@@ -31,6 +31,7 @@ const Switcher = ({ form, name, classes, values, defaultChecked, onChange }: Swi
               className={classes}
               defaultChecked={defaultChecked}
               key={index}
+              value={value}
               {...register(name, {
                 required: 'Please choose the fuel type',
                 onChange: onChange,
