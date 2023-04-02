@@ -7,7 +7,7 @@ type NumberInputProps = {
   placeholder: string;
   minNumber: string;
   subject: string;
-  requare: string;
+  warning: string[];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -18,7 +18,7 @@ const NumberInput = ({
   minNumber,
   subject,
   onChange,
-  requare,
+  warning,
 }: NumberInputProps): JSX.Element => {
   const {
     register,
@@ -31,8 +31,11 @@ const NumberInput = ({
         className={errors[subject] ? `${classes} border-red-500` : classes}
         placeholder={placeholder}
         {...register(subject, {
-          required: requare,
-          min: minNumber,
+          required: warning[0],
+          min: {
+            value: minNumber,
+            message: warning[1],
+          },
           onChange: onChange,
         })}
       />

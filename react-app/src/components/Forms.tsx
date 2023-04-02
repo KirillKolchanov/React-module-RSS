@@ -17,17 +17,12 @@ import warnings from '../utils/warnings';
 const Forms = (): JSX.Element => {
   const form: UseFormReturn<FieldValues, unknown> = useForm();
 
-  const {
-    handleSubmit,
-    reset,
-    formState: { isSubmitSuccessful, isDirty, errors },
-  } = form;
+  const { handleSubmit, reset } = form;
 
   const [cars, setCars] = useState<ICarSchema[]>([]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues): void => {
     const fileData = new Blob([data.file[0]]);
-    console.log(data);
     setCars((prevState: ICarSchema[]): ICarSchema[] => {
       return [
         ...prevState,
@@ -42,9 +37,8 @@ const Forms = (): JSX.Element => {
         },
       ];
     });
-    alert('The card is created!');
+    alert('The car is created!');
     reset();
-    console.log(cars);
   };
 
   return (
@@ -115,7 +109,7 @@ const Forms = (): JSX.Element => {
               minNumber="0"
               placeholder="Car mileage"
               subject="mileage"
-              requare="Please, enter a mileage"
+              warning={[warnings.mileage.emptyInput, warnings.mileage.minValue]}
             />
 
             <NumberInput
@@ -124,7 +118,7 @@ const Forms = (): JSX.Element => {
               placeholder="Car price $"
               minNumber="0"
               subject="price"
-              requare="Please, enter a price"
+              warning={[warnings.price.emptyInput, warnings.price.minValue]}
             />
 
             <Checkbox
