@@ -28,6 +28,7 @@ const DateInput = ({ form, classes, subject, text, min, max, onChange }: DateInp
         max={max}
         {...register(subject, {
           required: 'Select a date of production',
+          onChange: onChange,
         })}
       />
       {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
