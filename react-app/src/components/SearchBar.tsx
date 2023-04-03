@@ -9,7 +9,7 @@ const SearchBar = (): JSX.Element => {
         className="w-54 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent border shadow-sm border-slate-300"
         type="text"
         placeholder="Search"
-        value={searchValue}
+        value={searchValue ? searchValue : ''}
         onChange={(event) => setSearchValue(event.target.value)}
       />
       <button
