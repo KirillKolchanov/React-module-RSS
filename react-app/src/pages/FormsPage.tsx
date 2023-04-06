@@ -7,7 +7,6 @@ const FormsPage = () => {
     <>
       <Navigation />
       <Forms />
-      {/* <FormsCards /> */}
     </>
   );
 };

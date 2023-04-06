@@ -44,7 +44,7 @@ const Forms = (): JSX.Element => {
   return (
     <div>
       <div className="form_wrapper flex pb-20 bg-cover bg-center bg-no-repeat justify-end">
-        <div className="p-5 mt-10 mr-56 form-floating xl:w-1/4 rounded dark:bg-slate-800 bg-white  bg-opacity-75">
+        <div className="p-5 mt-10 mr-56 h-max form-floating xl:w-1/4 rounded dark:bg-slate-800 bg-white  bg-opacity-75">
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-center font-bold">Car constructor</h2>
 
