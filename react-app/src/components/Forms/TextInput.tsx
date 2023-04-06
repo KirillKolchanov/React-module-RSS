@@ -1,38 +1,39 @@
 import React from 'react';
-import WarningMessage from './WarningMessage';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type TextInputProps = {
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
   placeholder: string;
-  name: string;
-  reference: React.RefObject<HTMLInputElement>;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  warningMessage: string;
-  valid: boolean;
+  subject: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class TextInput extends React.Component<TextInputProps> {
-  constructor(props: TextInputProps) {
-    super(props);
-  }
-
-  render() {
-    const { classes, placeholder, name, reference, onChange, valid, warningMessage } = this.props;
-
-    return (
-      <>
-        <input
-          className={valid ? classes : `${classes} border-red-500`}
-          type="text"
-          placeholder={placeholder}
-          name={name}
-          ref={reference}
-          onChange={onChange}
-        />
-        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
-      </>
-    );
-  }
-}
+const TextInput = ({
+  form,
+  classes,
+  placeholder,
+  subject,
+  onChange,
+}: TextInputProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <input
+        {...register(subject, {
+          required: 'Please, enter a model of the car',
+          onChange: onChange,
+        })}
+        className={errors[subject] ? `${classes} border-red-500` : classes}
+        type="text"
+        placeholder={placeholder}
+      />
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </>
+  );
+};
 
 export default TextInput;

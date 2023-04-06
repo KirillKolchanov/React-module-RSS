@@ -1,45 +1,39 @@
 import React from 'react';
-import WarningMessage from './WarningMessage';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type DateInputProps = {
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
-  name: string;
+  subject: string;
+  text: string;
   min: string;
   max: string;
-  reference: React.RefObject<HTMLInputElement>;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  subject: string;
-  warningMessage: string;
-  valid: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class DateInput extends React.Component<DateInputProps> {
-  constructor(props: DateInputProps) {
-    super(props);
-  }
-
-  render() {
-    const { classes, min, max, name, reference, onChange, subject, valid, warningMessage } =
-      this.props;
-
-    return (
-      <>
-        <label htmlFor="DataPicker" className="mb-2 font-medium">
-          {subject}
-        </label>
-        <input
-          className={valid ? classes : `${classes} border-red-500`}
-          type="date"
-          name={name}
-          min={min}
-          max={max}
-          ref={reference}
-          onChange={onChange}
-        />
-        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
-      </>
-    );
-  }
-}
+const DateInput = ({ form, classes, subject, text, min, max, onChange }: DateInputProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <label htmlFor="DataPicker" className="mb-2 font-medium">
+        {text}
+      </label>
+      <input
+        className={errors[subject] ? `${classes} border-red-500` : classes}
+        type="date"
+        min={min}
+        max={max}
+        {...register(subject, {
+          required: 'Select a date of production',
+          onChange: onChange,
+        })}
+      />
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </>
+  );
+};
 
 export default DateInput;

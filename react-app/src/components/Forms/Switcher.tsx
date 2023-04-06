@@ -1,40 +1,51 @@
 import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type SwitcherProps = {
-  id: string;
+  form: UseFormReturn<FieldValues, unknown>;
   name: string;
   classes: string;
-  reference: React.RefObject<HTMLInputElement>;
   defaultChecked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  subject: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  values: string[];
 };
 
-class Switcher extends React.Component<SwitcherProps> {
-  constructor(props: SwitcherProps) {
-    super(props);
-  }
-
-  render() {
-    const { id, name, classes, reference, defaultChecked, onChange, subject } = this.props;
-
-    return (
-      <>
-        <input
-          type="radio"
-          id={id}
-          name={name}
-          className={classes}
-          ref={reference}
-          defaultChecked={defaultChecked}
-          onChange={onChange}
-        />
-        <label htmlFor={id} className="ml-2">
-          <span className="block text-m font-medium">{subject}</span>
-        </label>
-      </>
-    );
-  }
-}
+const Switcher = ({ form, name, classes, values, defaultChecked, onChange }: SwitcherProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <div
+        className={
+          errors[name]
+            ? 'flex items-center border-2 border-red-500 p-1 rounded mt-8'
+            : 'flex items-center mt-8'
+        }
+      >
+        {values.map((value, index) => (
+          <div key={index} className="flex items-center">
+            <input
+              type="radio"
+              className={classes}
+              defaultChecked={defaultChecked}
+              key={index}
+              value={value}
+              {...register(name, {
+                required: 'Please choose the fuel type',
+                onChange: onChange,
+              })}
+            />
+            <label htmlFor={name} className="ml-2">
+              <span className="block text-m font-medium">{value}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+      {errors[name] && <p className="mt-2 text-red-500">{errors[name]?.message as string}</p>}
+    </>
+  );
+};
 
 export default Switcher;

@@ -1,41 +1,47 @@
 import React from 'react';
-import WarningMessage from './WarningMessage';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type NumberInputProps = {
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
   placeholder: string;
-  name: string;
   minNumber: string;
-  reference: React.RefObject<HTMLInputElement>;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  warningMessage: string;
-  valid: boolean;
+  subject: string;
+  warning: string[];
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class NumberInput extends React.Component<NumberInputProps> {
-  constructor(props: NumberInputProps) {
-    super(props);
-  }
-
-  render() {
-    const { classes, placeholder, name, minNumber, reference, onChange, valid, warningMessage } =
-      this.props;
-
-    return (
-      <>
-        <input
-          className={valid ? classes : `${classes} border-red-500`}
-          type="number"
-          placeholder={placeholder}
-          name={name}
-          min={minNumber}
-          ref={reference}
-          onChange={onChange}
-        />
-        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
-      </>
-    );
-  }
-}
+const NumberInput = ({
+  form,
+  classes,
+  placeholder,
+  minNumber,
+  subject,
+  onChange,
+  warning,
+}: NumberInputProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <input
+        type="number"
+        className={errors[subject] ? `${classes} border-red-500` : classes}
+        placeholder={placeholder}
+        {...register(subject, {
+          required: warning[0],
+          min: {
+            value: minNumber,
+            message: warning[1],
+          },
+          onChange: onChange,
+        })}
+      />
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </>
+  );
+};
 
 export default NumberInput;

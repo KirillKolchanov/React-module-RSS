@@ -1,60 +1,53 @@
 import React from 'react';
-import WarningMessage from './WarningMessage';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type SelectProps = {
-  defaultValue: string;
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
-  placeholder: string;
   subject: string;
-  reference: React.RefObject<HTMLSelectElement>;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: string[];
-  warningMessage: string;
-  valid: boolean;
+  defaultValue: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-class Select extends React.Component<SelectProps> {
-  constructor(props: SelectProps) {
-    super(props);
-  }
+const Select = ({
+  form,
+  classes,
+  subject,
+  options,
+  defaultValue,
+  onChange,
+}: SelectProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
-  render() {
-    const {
-      defaultValue,
-      classes,
-      placeholder,
-      subject,
-      reference,
-      onChange,
-      options,
-      valid,
-      warningMessage,
-    } = this.props;
-
-    return (
-      <>
-        <select
-          defaultValue={defaultValue}
-          className={valid ? classes : `${classes} border-red-500`}
-          placeholder={placeholder}
-          ref={reference}
-          onChange={onChange}
-        >
-          <option value="" disabled>
-            {subject}
-          </option>
-          {options.map(
-            (make: string): JSX.Element => (
-              <option key={make} value={make}>
-                {make}
-              </option>
-            )
-          )}
-        </select>
-        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
-      </>
-    );
-  }
-}
+  return (
+    <div className="mt-5 flex flex-col">
+      <select
+        {...register(subject, {
+          required: 'Please, select a make of the car',
+          onChange: onChange,
+        })}
+        className={errors[subject] ? `${classes} border-red-500` : classes}
+        defaultValue={defaultValue}
+        placeholder={`Select ${subject}`}
+      >
+        <option disabled value="">
+          {`Select ${subject}`}
+        </option>
+        {options.map(
+          (car: string, index: number): JSX.Element => (
+            <option key={index} value={car}>
+              {car}
+            </option>
+          )
+        )}
+      </select>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </div>
+  );
+};
 
 export default Select;

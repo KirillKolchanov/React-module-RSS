@@ -1,42 +1,42 @@
 import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type CheckboxProps = {
-  id: string;
-  name: string;
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
   subject: string;
-  reference: React.RefObject<HTMLInputElement>;
-  valid: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  text: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class Checkbox extends React.Component<CheckboxProps> {
-  constructor(props: CheckboxProps) {
-    super(props);
-  }
+const Checkbox = ({ form, classes, subject, onChange, text }: CheckboxProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
-  render() {
-    const { id, name, classes, subject, reference, valid, onChange } = this.props;
-
-    return (
-      <>
+  return (
+    <>
+      <div
+        className={
+          errors[subject]
+            ? 'flex items-center mt-8 p-1 border-2 border-red-500'
+            : 'flex items-center mt-8'
+        }
+      >
         <input
           type="checkbox"
-          id={id}
-          name={name}
-          ref={reference}
           className={classes}
-          onChange={onChange}
+          {...register(subject, {
+            required: 'Checkbox is required',
+            onChange: onChange,
+          })}
         />
-        <label
-          htmlFor={id}
-          className={valid ? 'text-xl' : 'text-xl border-2 border-red-500 px-2 py-2'}
-        >
-          {subject}
-        </label>
-      </>
-    );
-  }
-}
+        <label>{text}</label>
+      </div>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </>
+  );
+};
 
 export default Checkbox;

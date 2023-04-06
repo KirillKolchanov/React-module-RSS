@@ -7,7 +7,7 @@ export const allCars: ICarSchema[] = [
     price: 213.861,
     age: 2019,
     fuel: 'petrol',
-    miles: '2,650',
+    miles: 2650,
     img: '/cars/ferrari 488.jpeg',
   },
   {
@@ -16,7 +16,7 @@ export const allCars: ICarSchema[] = [
     price: 298.638,
     age: 2022,
     fuel: 'electro',
-    miles: '205',
+    miles: 205,
     img: '/cars/aston-martin.jpeg',
   },
   {
@@ -25,7 +25,7 @@ export const allCars: ICarSchema[] = [
     price: 232.966,
     age: 2020,
     fuel: 'petrol',
-    miles: '19,025',
+    miles: 19025,
     img: '/cars/Porshe 911.jpeg',
   },
   {
@@ -34,7 +34,7 @@ export const allCars: ICarSchema[] = [
     price: 219.802,
     age: 2015,
     fuel: 'diesel',
-    miles: '19,600',
+    miles: 19600,
     img: '/cars/ferrari f12.jpeg',
   },
   {
@@ -43,7 +43,7 @@ export const allCars: ICarSchema[] = [
     price: 172.252,
     age: 2010,
     fuel: 'petrol',
-    miles: '48,000',
+    miles: 48000,
     img: '/cars/mercedes sls-old.jpeg',
   },
   {
@@ -52,7 +52,7 @@ export const allCars: ICarSchema[] = [
     price: 203.188,
     age: 2011,
     fuel: 'petrol',
-    miles: '24,000',
+    miles: 24000,
     img: '/cars/mercedes sls.jpeg',
   },
 ];

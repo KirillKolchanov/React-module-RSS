@@ -1,8 +1,4 @@
 const warnings = {
-  file: {
-    emptyInput: 'Please, choose car photo',
-    wrongImgFormat: 'Please upload only jpg, png, jpeg, gif files!',
-  },
   make: {
     emptyInput: 'Please, select the make of the car',
   },
@@ -15,11 +11,16 @@ const warnings = {
   year: {
     emptyInput: 'Please, choose the year of production (No matter what day or month)',
   },
+  file: {
+    emptyInput: 'Please, choose car photo',
+  },
   mileage: {
     emptyInput: 'Please, type a car mileage (min 0)',
+    minValue: 'The mileage must be more than 0',
   },
   price: {
     emptyInput: 'Please, type a car price',
+    minValue: 'The price must be more than 0',
   },
   checkbox: {
     emptyInput: 'Checkbox is required',

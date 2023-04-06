@@ -1,44 +1,44 @@
 import React from 'react';
-import WarningMessage from './WarningMessage';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type FileInputProps = {
-  id: string;
-  name: string;
+  form: UseFormReturn<FieldValues, unknown>;
   classes: string;
   accept: string;
-  reference: React.RefObject<HTMLInputElement>;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   subject: string;
-  warningMessage: string;
-  valid: boolean;
+  text: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class FileInput extends React.Component<FileInputProps> {
-  constructor(props: FileInputProps) {
-    super(props);
-  }
-
-  render() {
-    const { id, name, classes, reference, onChange, subject, valid, warningMessage } = this.props;
-
-    return (
-      <>
-        <label htmlFor="DataPicker" className="mb-2 font-medium ">
-          {subject}
-          <input
-            type="file"
-            id={id}
-            name={name}
-            className={classes}
-            accept="image/png, image/gif, image/jpeg"
-            ref={reference}
-            onChange={onChange}
-          />
-        </label>
-        {valid ? null : <WarningMessage valid={valid}>{warningMessage}</WarningMessage>}
-      </>
-    );
-  }
-}
+const FileInput = ({
+  form,
+  classes,
+  onChange,
+  subject,
+  text,
+  accept,
+}: FileInputProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = form;
+  return (
+    <>
+      <label htmlFor="DataPicker" className="mt-8 font-medium">
+        {text}
+        <input
+          type="file"
+          className={errors[subject] ? `${classes} border-2 border-red-500 p-1 rounded` : classes}
+          accept={accept}
+          {...register(subject, {
+            required: 'Please, select an image',
+            onChange: onChange,
+          })}
+        />
+      </label>
+      {errors[subject] && <p className="mt-2 text-red-500">{errors[subject]?.message as string}</p>}
+    </>
+  );
+};
 
 export default FileInput;
