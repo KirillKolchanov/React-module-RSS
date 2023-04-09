@@ -15,6 +15,8 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<true | false>(false);
   const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
+  const [characterData, setCharacterData] = useState<ICharacter>({});
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,11 +43,17 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   }, [characters, searchValue]);
 
   const characterDetails = (characterData: ICharacter) => {
-    console.log(characterData);
+    setIsOpen(true);
+    setCharacterData(characterData);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
   };
 
   return (
     <div className="mt-12 mb-24">
+      <Modal isOpen={isOpen} onClose={handleCloseModal} characterData={characterData}></Modal>
       {error && (
         <>
           <h1 className="mb-10 text-red-500 text-center">{error}</h1>
@@ -59,7 +67,9 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
           ></iframe>
         </>
       )}
+
       {isLoading && <Loader />}
+
       {!error ? (
         <div className="flex justify-center gap-16 flex-wrap">
           {searchCharacters.length !== 0 ? (
@@ -86,7 +96,6 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
           )}
         </div>
       ) : null}
-      {/* <Modal /> */}
     </div>
   );
 };

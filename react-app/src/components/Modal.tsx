@@ -1,58 +1,55 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { Transition } from '@headlessui/react';
+import { ICharacter } from '../models';
 
-// type MyProps = Pick<IDataForModal, 'episodesModal' | 'locationModal' | 'nameModal'>;
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  characterData: ICharacter;
+};
 
-// type MyState = Record<string, never>;
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, characterData }) => {
+  const handleModalClose = () => {
+    setIsAnimating(true);
+    onClose();
+  };
 
-export default class Modal extends Component {
-  render(): JSX.Element {
-    // const { name: nameofLocation, type, dimension } = this.props.locationModal;
-    return (
-      <div
-        className="modal fade fixed top-40 left-50 w-50 h-full outline-none overflow-x-hidden overflow-y-auto"
-        id="modalCenteredScrollable"
-        tabIndex={-1}
-        aria-labelledby="modalCenteredScrollable"
-        aria-modal="true"
-        role="dialog"
+  return (
+    <>
+      <Transition
+        show={isOpen}
+        enter="transition-opacity duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="fixed inset-0 z-50 bg-black bg-opacity-50"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) {
+            onClose();
+          }
+        }}
       >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable relative w-auto pointer-events-none">
-          <div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current overflow-x-hidden">
-            <div className="modal-header flex flex-shrink-0 items-center justify-between px-4 py-2 border-b border-gray-200 rounded-t-md">
-              <h2
-                className="text-3xl font-medium leading-normal text-gray-800"
-                id="modalCenteredScrollableLabel"
-              >
-                {/* {this.props.nameModal} */}
-              </h2>
-              <button
-                type="button"
-                className="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body relative py-2 px-4">
-              <h3 className="text-2xl text-blue-600 font-mono text-center">Location:</h3>
-              <h3 className="text-1xl text-gray-400 font-mono text-center mb-2">
-                [Name =&gt; Type =&gt; Dimension]
-              </h3>
-              <div className="flex flex-wrap gap-2 items-center justify-center mb-6">
-                {/* <Badge option={nameofLocation} />
-                <Badge option={type} />
-                <Badge option={dimension} /> */}
-              </div>
-              <h3 className="text-2xl text-blue-600 font-mono text-center">
-                List of episodes in which this character appeared:
-              </h3>
-              {/* <Table
-                heading={['Name', 'Air date', ' Episode']}
-                episodesModal={this.props.episodesModal}
-              /> */}
-            </div>
+        <div
+          className={`w-96 fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4`}
+        >
+          <p>{characterData.name}</p>
+          <div className="absolute top-0 right-0 p-2">
+            <button className="text-gray-500 hover:text-gray-700 p-0" onClick={handleModalClose}>
+              <svg className="w-8 h-8 fill-current" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M13.414 6.586a2 2 0 00-2.828 0L10 7.172l-.586-.586a2 2 0 00-2.828 2.828L7.172 10l-.586.586a2 2 0 002.828 2.828L10 12.828l.586.586a2 2 0 002.828-2.828L12.828 10l.586-.586a2 2 0 000-2.828z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      </Transition>
+    </>
+  );
+};
+
+export default Modal;

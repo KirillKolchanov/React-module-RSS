@@ -8,11 +8,9 @@ interface Props {
 }
 
 const CharacterCard = ({ character, onCharacter }: Props): JSX.Element => {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="max-w-sm rounded-md overflow-hidden shadow-lg dark:bg-slate-800 hover:scale-105 hover:cursor-pointer transition duration-300">
-      <div className="px-6 py-4 w-96">
+      <div className="px-6 py-4 w-96" onClick={() => onCharacter(character)}>
         <div className="card-title_wrapper flex justify-between items-center">
           <div className="card-title">
             <div className="font-bold text-3xl mb-2">{character.name}</div>
@@ -27,7 +25,6 @@ const CharacterCard = ({ character, onCharacter }: Props): JSX.Element => {
         <button
           className={`mt-7 px-4 py-2 rounded bg-blue-500 hover:bg-blue-700
             text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex m-auto`}
-          onClick={() => onCharacter(character)}
         >
           More info
         </button>
