@@ -10,7 +10,6 @@ type ModalProps = {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, characterData }) => {
   const handleModalClose = () => {
-    setIsAnimating(true);
     onClose();
   };
 
