@@ -8,7 +8,7 @@ const SearchBar = ({ onStateChange }: searchProps): JSX.Element => {
   const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') as string);
   useEffect(() => {
     onStateChange(searchValue);
-  }, []);
+  }, [onStateChange]);
 
   const handleChange = () => {
     localStorage.setItem('searchValue', searchValue);

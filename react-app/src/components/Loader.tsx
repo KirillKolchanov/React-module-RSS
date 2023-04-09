@@ -1,11 +1,6 @@
 import React from 'react';
 
-interface LoaderProps {
-  size?: number;
-  color?: string;
-}
-
-const Loader: React.FC<LoaderProps> = ({ size = 20, color = 'blue' }) => {
+const Loader: React.FC = () => {
   return (
     <div role="status" className="text-center">
       <svg
