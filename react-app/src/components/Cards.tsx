@@ -15,7 +15,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<true | false>(false);
   const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
-  const [characterData, setCharacterData] = useState<ICharacter>({});
+  const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -37,9 +37,11 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    setSearchCharacters(
-      characters.filter((card) => card.name.toLowerCase().includes(searchValue.toLowerCase()))
-    );
+    if (characters.length) {
+      setSearchCharacters(
+        characters.filter((card) => card.name.toLowerCase().includes(searchValue.toLowerCase()))
+      );
+    }
   }, [characters, searchValue]);
 
   const characterDetails = (characterData: ICharacter) => {
@@ -61,7 +63,6 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
             src="https://giphy.com/embed/x2MAFjFlyX2YukQisM"
             width="480"
             height="260"
-            frameBorder="0"
             className="giphy-embed m-auto"
             allowFullScreen
           ></iframe>
@@ -88,7 +89,6 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
                 src="https://giphy.com/embed/l41lVxNzuBpH2aYIU"
                 width="480"
                 height="270"
-                frameBorder="0"
                 className="giphy-embed m-auto"
                 allowFullScreen
               ></iframe>

@@ -5,7 +5,7 @@ import { ICharacter } from '../models';
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  characterData: ICharacter;
+  characterData: ICharacter | Record<string, never>;
 };
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, characterData }) => {

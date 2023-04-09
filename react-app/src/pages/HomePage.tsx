@@ -6,14 +6,10 @@ import Cards from '../components/Cards';
 const AboutPage = () => {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleStateChange = (searchValue: string) => {
-    setSearchValue(searchValue);
-  };
-
   return (
     <>
       <Navigation />
-      <SearchBar onStateChange={handleStateChange} />
+      <SearchBar onChange={setSearchValue} />
       <Cards searchValue={searchValue} />
     </>
   );

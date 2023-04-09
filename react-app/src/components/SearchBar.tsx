@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-interface searchProps {
-  onStateChange: (newState: string) => void;
+interface SearchProps {
+  onChange: (newValue: string) => void;
 }
 
-const SearchBar = ({ onStateChange }: searchProps): JSX.Element => {
-  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') as string);
-  useEffect(() => {
-    onStateChange(searchValue);
-  }, [onStateChange]);
+const SearchBar = ({ onChange }: SearchProps) => {
+  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') ?? '');
 
   const handleChange = () => {
     localStorage.setItem('searchValue', searchValue);
-    onStateChange(searchValue);
+    onChange(searchValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -21,6 +18,12 @@ const SearchBar = ({ onStateChange }: searchProps): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    if (searchValue) {
+      onChange(searchValue);
+    }
+  }, []);
+
   return (
     <div className="relative mt-8 flex justify-center">
       <div className="relative">
@@ -28,7 +31,7 @@ const SearchBar = ({ onStateChange }: searchProps): JSX.Element => {
           className="w-54 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent border shadow-sm border-slate-300"
           type="text"
           placeholder="Search"
-          value={searchValue ? searchValue : ''}
+          value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
           onKeyDown={handleKeyDown}
         />

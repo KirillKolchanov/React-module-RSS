@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { ICarSchema, ICharacter } from '../models';
-import Modal from './Modal';
+import { ICharacter } from '../models';
 
 interface Props {
   character: ICharacter;
   onCharacter: (character: ICharacter) => void;
 }
 
-const CharacterCard = ({ character, onCharacter }: Props): JSX.Element => {
+const CharacterCard = ({ character, onCharacter }: Props) => {
   return (
     <div className="max-w-sm rounded-md overflow-hidden shadow-lg dark:bg-slate-800 hover:scale-105 hover:cursor-pointer transition duration-300">
       <div className="px-6 py-4 w-96" onClick={() => onCharacter(character)}>
