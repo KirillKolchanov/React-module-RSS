@@ -49,12 +49,8 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
     console.log(characterData);
 
     try {
-      const locationResponse = await axios(characterData.episode[0]);
+      const locationResponse = await axios(`${characterData.episode[0]}jhgf`);
       const locationData = await locationResponse.data;
-      console.log(locationData);
-
-      console.log(locationData['air_date']);
-
       setEpisodeData(locationData);
     } catch (err) {
       setError((err as AxiosError).message);
@@ -70,14 +66,14 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
 
   return (
     <div className="mt-12 mb-24">
-      {characterData && (
+      {!error ? (
         <Modal
           isOpen={isOpen}
           onClose={handleCloseModal}
           characterData={characterData}
           episodeData={episodeData}
-        ></Modal>
-      )}
+        />
+      ) : null}
       {error && (
         <>
           <h1 className="mb-10 text-red-500 text-center">{error}</h1>
