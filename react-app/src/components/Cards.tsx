@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import CharacterCard from './CharacterCard';
 
-import { ICharacter } from '../models';
+import { ICharacter, IEpisode } from '../models';
 import Loader from './Loader';
 import Modal from './Modal';
 
@@ -16,6 +16,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<true | false>(false);
   const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
   const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
+  const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -44,7 +45,21 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
     }
   }, [characters, searchValue]);
 
-  const characterDetails = (characterData: ICharacter) => {
+  const characterDetails = async (characterData: ICharacter) => {
+    console.log(characterData);
+
+    try {
+      const locationResponse = await axios(characterData.episode[0]);
+      const locationData = await locationResponse.data;
+      console.log(locationData);
+
+      console.log(locationData['air_date']);
+
+      setEpisodeData(locationData);
+    } catch (err) {
+      setError((err as AxiosError).message);
+    }
+
     setIsOpen(true);
     setCharacterData(characterData);
   };
@@ -55,7 +70,14 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
 
   return (
     <div className="mt-12 mb-24">
-      <Modal isOpen={isOpen} onClose={handleCloseModal} characterData={characterData}></Modal>
+      {characterData && (
+        <Modal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          characterData={characterData}
+          episodeData={episodeData}
+        ></Modal>
+      )}
       {error && (
         <>
           <h1 className="mb-10 text-red-500 text-center">{error}</h1>

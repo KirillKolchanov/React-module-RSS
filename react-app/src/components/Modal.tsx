@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { ICharacter } from '../models';
+import { ICharacter, IEpisode } from '../models';
+import Table from './Table';
 
 type ModalProps = {
+  characterData: ICharacter | Record<string, never>;
+  episodeData: IEpisode | Record<string, never>;
   isOpen: boolean;
   onClose: () => void;
-  characterData: ICharacter | Record<string, never>;
 };
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, characterData }) => {
+const Modal: React.FC<ModalProps> = ({ characterData, episodeData, isOpen, onClose }) => {
   const handleModalClose = () => {
     onClose();
   };
@@ -31,9 +33,29 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, characterData }) => {
         }}
       >
         <div
-          className={`w-96 fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4`}
+          className={`w-auto fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4`}
         >
-          <p>{characterData.name}</p>
+          <h2 className="mb-5 font-bold">{characterData.name}</h2>
+          <div className="mb-5">
+            <span>Origin: </span>
+            {characterData?.origin?.url.length ? (
+              <a href={characterData?.origin?.url} target="_blank" rel="noreferrer">
+                {characterData?.origin?.name} 🎞️
+              </a>
+            ) : (
+              <a>{characterData?.origin?.name} 🎞️</a>
+            )}
+          </div>
+          <div className="mb-5">
+            <span>Location: </span>
+            <a href={characterData?.location?.url} target="_blank" rel="noreferrer">
+              {characterData?.location?.name} 🗺️
+            </a>
+          </div>
+          <h3 className="mt-5 mb-5 italic">
+            First appearance: <span className="font-bold">{episodeData['air_date']}</span> 🌚
+          </h3>
+          <Table data={characterData.episode} />
           <div className="absolute top-0 right-0 p-2">
             <button className="text-gray-500 hover:text-gray-700 p-0" onClick={handleModalClose}>
               <svg className="w-8 h-8 fill-current" viewBox="0 0 20 20">

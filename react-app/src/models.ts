@@ -19,6 +19,14 @@ export interface ICharacter {
   created: string;
 }
 
+export interface IEpisode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+}
+
 export interface ICarSchema {
   make: string;
   model: string;
