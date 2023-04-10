@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ characterData, episodeData, isOpen, onClo
         }}
       >
         <div
-          className={`w-auto fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-4`}
+          className={`w-auto fixed z-50 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 rounded-lg p-4`}
         >
           <h2 className="mb-5 font-bold">{characterData.name}</h2>
           <div className="mb-5">
