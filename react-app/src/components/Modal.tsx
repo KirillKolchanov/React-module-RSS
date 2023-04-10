@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Transition } from '@headlessui/react';
 import { ICharacter, IEpisode } from '../models';
 import Table from './Table';

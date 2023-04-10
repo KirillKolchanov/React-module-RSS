@@ -49,7 +49,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
     console.log(characterData);
 
     try {
-      const locationResponse = await axios(`${characterData.episode[0]}jhgf`);
+      const locationResponse = await axios(characterData.episode[0]);
       const locationData = await locationResponse.data;
       setEpisodeData(locationData);
     } catch (err) {
@@ -77,13 +77,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
       {error && (
         <>
           <h1 className="mb-10 text-red-500 text-center">{error}</h1>
-          <iframe
-            src="https://giphy.com/embed/x2MAFjFlyX2YukQisM"
-            width="480"
-            height="260"
-            className="giphy-embed m-auto"
-            allowFullScreen
-          ></iframe>
+          <img src="/errorApi.gif" alt="" className="giphy-embed m-auto rounded" />
         </>
       )}
 
@@ -103,13 +97,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
             <div className="flex flex-col">
               <h1 className="mb-5 text-center">No matches found 😢</h1>
               <h1 className="mb-5 text-center">Try another search...</h1>
-              <iframe
-                src="https://giphy.com/embed/l41lVxNzuBpH2aYIU"
-                width="480"
-                height="270"
-                className="giphy-embed m-auto"
-                allowFullScreen
-              ></iframe>
+              <img src="/notFound.gif" alt="" className="giphy-embed m-auto rounded" />
             </div>
           )}
         </div>
