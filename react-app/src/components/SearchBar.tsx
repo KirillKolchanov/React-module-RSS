@@ -22,6 +22,7 @@ const SearchBar = ({ onChange }: SearchProps) => {
     if (searchValue) {
       onChange(searchValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
