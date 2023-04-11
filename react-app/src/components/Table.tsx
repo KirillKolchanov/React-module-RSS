@@ -14,7 +14,7 @@ const Table = ({ data }: TableProps) => {
   return (
     <div className="max-h-72 overflow-y-scroll">
       <table className="min-w-full divide-y">
-        <thead className="bg-gray-900">
+        <thead className="dark:bg-gray-900">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
               Episodes

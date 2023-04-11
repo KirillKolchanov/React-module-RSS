@@ -46,7 +46,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   }, [characters, searchValue]);
 
   const characterDetails = async (characterData: ICharacter) => {
-    console.log(characterData);
+    document.body.classList.add('overflow-hidden');
 
     try {
       const locationResponse = await axios(characterData.episode[0]);
@@ -61,6 +61,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   };
 
   const handleCloseModal = () => {
+    document.body.classList.remove('overflow-hidden');
     setIsOpen(false);
   };
 
