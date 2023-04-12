@@ -13,11 +13,11 @@ interface cardsProps {
 const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   const [characters, setCharacters] = useState<ICharacter[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<true | false>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
   const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
   const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +28,10 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
         );
         const data = response.data;
         setCharacters(data.results);
-        setIsLoading(false);
       } catch (err) {
-        setIsLoading(false);
         setError((err as AxiosError).message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
