@@ -11,7 +11,6 @@ interface cardsProps {
 }
 
 const Cards = ({ searchValue }: cardsProps): JSX.Element => {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
@@ -22,28 +21,25 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setError(null);
         setIsLoading(true);
         const response = await axios.get<{ results: ICharacter[] }>(
-          'https://rickandmortyapi.com/api/character'
+          `https://rickandmortyapi.com/api/character?name=${searchValue}`
         );
         const data = response.data;
-        setCharacters(data.results);
+        setSearchCharacters(data.results);
       } catch (err) {
-        setError((err as AxiosError).message);
+        if ((err as AxiosError).request.status === 404) {
+          setError('404');
+        } else {
+          setError((err as AxiosError).message);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (characters.length) {
-      setSearchCharacters(
-        characters.filter((card) => card.name.toLowerCase().includes(searchValue.toLowerCase()))
-      );
-    }
-  }, [characters, searchValue]);
+  }, [searchValue]);
 
   const characterDetails = async (characterData: ICharacter) => {
     document.body.classList.add('overflow-hidden');
@@ -67,6 +63,37 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
 
   return (
     <div className="mt-12 mb-24">
+      {isLoading && <Loader />}
+
+      {error === '404' && (
+        <div className="flex flex-col">
+          <h1 className="mb-5 text-center">No matches found 😢</h1>
+          <h1 className="mb-5 text-center">Try another search...</h1>
+          <img src="/notFound.gif" alt="" className="giphy-embed m-auto rounded" />
+        </div>
+      )}
+
+      {error && error !== '404' && (
+        <>
+          <h1 className="mb-10 text-red-500 text-center">{error}</h1>
+          <img src="/errorApi.gif" alt="" className="giphy-embed m-auto rounded" />
+        </>
+      )}
+
+      {!error && (
+        <div className="flex justify-center gap-16 flex-wrap">
+          {searchCharacters.length !== 0
+            ? searchCharacters.map((character: ICharacter) => (
+                <CharacterCard
+                  key={character.id}
+                  character={character}
+                  onCharacter={characterDetails}
+                />
+              ))
+            : null}
+        </div>
+      )}
+
       {!error ? (
         <Modal
           isOpen={isOpen}
@@ -74,34 +101,6 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
           characterData={characterData}
           episodeData={episodeData}
         />
-      ) : null}
-      {error && (
-        <>
-          <h1 className="mb-10 text-red-500 text-center">{error}</h1>
-          <img src="/errorApi.gif" alt="" className="giphy-embed m-auto rounded" />
-        </>
-      )}
-
-      {isLoading && <Loader />}
-
-      {!error ? (
-        <div className="flex justify-center gap-16 flex-wrap">
-          {searchCharacters.length !== 0 ? (
-            searchCharacters.map((character: ICharacter) => (
-              <CharacterCard
-                key={character.id}
-                character={character}
-                onCharacter={characterDetails}
-              />
-            ))
-          ) : (
-            <div className="flex flex-col">
-              <h1 className="mb-5 text-center">No matches found 😢</h1>
-              <h1 className="mb-5 text-center">Try another search...</h1>
-              <img src="/notFound.gif" alt="" className="giphy-embed m-auto rounded" />
-            </div>
-          )}
-        </div>
       ) : null}
     </div>
   );
