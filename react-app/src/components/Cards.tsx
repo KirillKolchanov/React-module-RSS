@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchCharacters, setError, setIsLoading } from '../store/actions';
 import axios, { AxiosError } from 'axios';
 import CharacterCard from './CharacterCard';
 
@@ -11,37 +13,42 @@ interface cardsProps {
 }
 
 const Cards = ({ searchValue }: cardsProps): JSX.Element => {
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
+  // const [error, setError] = useState<string | null>(null);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
+  const searchCharacters = useSelector((state) => state.searchCharacters);
+  const error = useSelector((state) => state.error);
+  const isLoading = useSelector((state) => state.isLoading);
   const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
   const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setError(null);
-        setIsLoading(true);
+        dispatch(setError(null));
+        dispatch(setIsLoading(true));
         const response = await axios.get<{ results: ICharacter[] }>(
           `https://rickandmortyapi.com/api/character?name=${searchValue}`
         );
         const data = response.data;
-        setSearchCharacters(data.results);
+        dispatch(setSearchCharacters(data.results));
       } catch (err) {
         if ((err as AxiosError).request.status === 404) {
-          setError('404');
+          dispatch(setError('404'));
         } else {
-          setError((err as AxiosError).message);
+          dispatch(setError((err as AxiosError).message));
         }
       } finally {
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       }
     };
     fetchData();
   }, [searchValue]);
 
-  const characterDetails = async (characterData: ICharacter) => {
+  const getCharacterDetails = async (characterData: ICharacter) => {
     document.body.classList.add('overflow-hidden');
 
     try {
@@ -87,7 +94,7 @@ const Cards = ({ searchValue }: cardsProps): JSX.Element => {
                 <CharacterCard
                   key={character.id}
                   character={character}
-                  onCharacter={characterDetails}
+                  onCharacter={getCharacterDetails}
                 />
               ))
             : null}
