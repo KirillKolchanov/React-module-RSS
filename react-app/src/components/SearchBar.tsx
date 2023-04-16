@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchValue } from '../store/slices/charactersSlice';
+import { charactersApi } from '../api/charactersApi';
+import { ICharacter } from '../models';
 
-interface SearchProps {
-  onChange: (newValue: string) => void;
+interface RootState {
+  characters: {
+    searchValue: string;
+    results: ICharacter[];
+    isLoading: boolean;
+    error: string | null;
+  };
 }
 
-const SearchBar = ({ onChange }: SearchProps) => {
-  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') ?? '');
+const SearchBar = () => {
+  const [triggerSearchCharacters] = charactersApi.endpoints.searchCharacters.useLazyQuery();
 
-  const handleChange = () => {
-    localStorage.setItem('searchValue', searchValue);
-    onChange(searchValue);
-  };
+  const dispatch = useDispatch();
+
+  const searchValue = useSelector((state: RootState) => state.characters.searchValue);
+
+  useEffect(() => {
+    triggerSearchCharacters(searchValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleChange();
+      triggerSearchCharacters(searchValue);
     }
   };
-
-  useEffect(() => {
-    if (searchValue) {
-      onChange(searchValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="relative mt-8 flex justify-center">
@@ -33,13 +39,13 @@ const SearchBar = ({ onChange }: SearchProps) => {
           type="text"
           placeholder="Search"
           value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
+          onChange={(event) => dispatch(setSearchValue(event.target.value))}
           onKeyDown={handleKeyDown}
         />
         {searchValue && (
           <button
             className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 bg-transparent hover:bg-gray-100 overflow-visible"
-            onClick={() => setSearchValue('')}
+            onClick={() => dispatch(setSearchValue(''))}
           >
             <svg
               className="w-4 h-4 fill-current text-gray-400 hover:text-gray-600"
@@ -53,7 +59,7 @@ const SearchBar = ({ onChange }: SearchProps) => {
       <button
         className="ml-2 top-0 right-0 px-4 py-2 bg-blue-500 text-white rounded-md
            hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        onClick={handleChange}
+        onClick={() => triggerSearchCharacters(searchValue)}
       >
         Search
       </button>
