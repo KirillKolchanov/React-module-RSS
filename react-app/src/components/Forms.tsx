@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 
 import '../styles/pages/Forms.css';
 
-import { ICarSchema } from '../models';
 import Switcher from './Forms/Switcher';
 import Card from './Card';
 import TextInput from './Forms/TextInput';
@@ -13,6 +12,8 @@ import DateInput from './Forms/DateInput';
 import FileInput from './Forms/FileInput';
 import Checkbox from './Forms/Checkbox';
 import warnings from '../utils/warnings';
+
+import { ICarSchema } from '../models';
 
 const Forms = (): JSX.Element => {
   const form: UseFormReturn<FieldValues, unknown> = useForm();

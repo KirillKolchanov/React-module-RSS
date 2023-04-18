@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navigation = (): JSX.Element => {
+const Navigation = () => {
   return (
     <div className="my-0 pr-24 pl-24 w-full h-24 flex items-center justify-between border-b-2">
       <h2>

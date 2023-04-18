@@ -1,5 +1,4 @@
 import { ICarSchema } from '../models';
-import React from 'react';
 
 interface Props {
   car: ICarSchema;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Transition } from '@headlessui/react';
 import { ICharacter, IEpisode } from '../models';
 import Table from './Table';
@@ -10,7 +9,7 @@ type ModalProps = {
   onClose: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ characterData, episodeData, isOpen, onClose }) => {
+const Modal = ({ characterData, episodeData, isOpen, onClose }: ModalProps) => {
   const handleModalClose = () => {
     onClose();
   };

@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { charactersApi } from '../api/charactersApi';
+import { toggleCharacterDetailsModal } from '../store/slices/charactersSlice';
+
 import CharacterCard from './CharacterCard';
-import { ICharacter, IEpisode } from '../models';
 import Loader from './Loader';
 import Modal from './Modal';
-import { charactersApi } from '../api/charactersApi';
+
+import { ICharacter, IEpisode } from '../models';
 
 interface RootState {
   characters: {
@@ -13,11 +17,14 @@ interface RootState {
     results: ICharacter[];
     isLoading: boolean;
     error: string | null;
+    isModalOpen: boolean;
   };
 }
 
 const Cards = () => {
   const searchValue = useSelector((state: RootState) => state.characters.searchValue);
+  const isModalOpen = useSelector((state: RootState) => state.characters.isModalOpen);
+  const dispatch = useDispatch();
 
   const { isLoading, data, error } =
     charactersApi.endpoints.searchCharacters.useQueryState(searchValue);
@@ -26,9 +33,10 @@ const Cards = () => {
 
   const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
   const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const getCharacterDetails = async (characterData: ICharacter) => {
+    dispatch(toggleCharacterDetailsModal());
+
     document.body.classList.add('overflow-hidden');
 
     try {
@@ -39,13 +47,12 @@ const Cards = () => {
       // setError((err as AxiosError).message);
     }
 
-    setIsOpen(true);
     setCharacterData(characterData);
   };
 
   const handleCloseModal = () => {
     document.body.classList.remove('overflow-hidden');
-    setIsOpen(false);
+    dispatch(toggleCharacterDetailsModal());
   };
 
   if (isLoading) {
@@ -91,7 +98,7 @@ const Cards = () => {
           : null}
       </div>
       <Modal
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onClose={handleCloseModal}
         characterData={characterData}
         episodeData={episodeData}
