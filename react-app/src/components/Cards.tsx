@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios, { AxiosError } from 'axios';
 import CharacterCard from './CharacterCard';
 import { ICharacter, IEpisode } from '../models';
@@ -33,7 +33,7 @@ const Cards = () => {
 
     try {
       const locationResponse = await axios(characterData.episode[0]);
-      const locationData = await locationResponse.data;
+      const locationData = locationResponse.data;
       setEpisodeData(locationData);
     } catch (err) {
       // setError((err as AxiosError).message);
