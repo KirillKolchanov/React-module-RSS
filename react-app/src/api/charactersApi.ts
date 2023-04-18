@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICharacter } from '../models';
+import { ICharacter, IEpisode } from '../models';
 
 export const charactersApi = createApi({
   reducerPath: 'charactersApi',
@@ -8,8 +8,8 @@ export const charactersApi = createApi({
     searchCharacters: builder.query<{ results: ICharacter[] }, string>({
       query: (name) => `character?name=${name}`,
     }),
-    characterDetails: builder.query<{ results: ICharacter[] }, string>({
-      query: (name) => `character?name=${name}`,
+    characterDetails: builder.query<{ data: IEpisode[] }, number>({
+      query: (number) => `episode/${number}`,
     }),
   }),
 });

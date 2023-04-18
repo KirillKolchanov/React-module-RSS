@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,20 +32,17 @@ const Cards = () => {
   const characters = data?.results ?? [];
 
   const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
-  const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
+  const [triggerCharacterDetails, newData] =
+    charactersApi.endpoints.characterDetails.useLazyQuery();
 
-  const getCharacterDetails = async (characterData: ICharacter) => {
+  const episodeData = newData?.data ?? {};
+
+  const getCharacterDetails = (characterData: ICharacter) => {
     dispatch(toggleCharacterDetailsModal());
 
     document.body.classList.add('overflow-hidden');
 
-    try {
-      const locationResponse = await axios(characterData.episode[0]);
-      const locationData = locationResponse.data;
-      setEpisodeData(locationData);
-    } catch (err) {
-      // setError((err as AxiosError).message);
-    }
+    triggerCharacterDetails(Number(characterData.episode[0].slice(-1)));
 
     setCharacterData(characterData);
   };
