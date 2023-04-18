@@ -9,6 +9,7 @@ interface CharactersState {
   isLoading: boolean;
   error: AxiosError | null;
   isModalOpen: boolean;
+  characterData: ICharacter | '';
 }
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   isLoading: false,
   error: null,
   isModalOpen: false,
+  characterData: '',
 } as CharactersState;
 
 const charactersSlice = createSlice({
@@ -29,8 +31,12 @@ const charactersSlice = createSlice({
     toggleCharacterDetailsModal(state) {
       state.isModalOpen = !state.isModalOpen;
     },
+    setCharacterData(state, action: PayloadAction<ICharacter>) {
+      state.characterData = action.payload;
+    },
   },
 });
 
-export const { setSearchValue, toggleCharacterDetailsModal } = charactersSlice.actions;
+export const { setSearchValue, toggleCharacterDetailsModal, setCharacterData } =
+  charactersSlice.actions;
 export default charactersSlice.reducer;

@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { charactersApi } from '../api/charactersApi';
-import { toggleCharacterDetailsModal } from '../store/slices/charactersSlice';
+import { setCharacterData, toggleCharacterDetailsModal } from '../store/slices/charactersSlice';
 
 import CharacterCard from './CharacterCard';
 import Loader from './Loader';
 import Modal from './Modal';
 
-import { ICharacter, IEpisode } from '../models';
+import { ICharacter } from '../models';
 
 interface RootState {
   characters: {
@@ -18,12 +17,14 @@ interface RootState {
     isLoading: boolean;
     error: string | null;
     isModalOpen: boolean;
+    characterData: ICharacter;
   };
 }
 
 const Cards = () => {
   const searchValue = useSelector((state: RootState) => state.characters.searchValue);
   const isModalOpen = useSelector((state: RootState) => state.characters.isModalOpen);
+  const characterData = useSelector((state: RootState) => state.characters.characterData);
   const dispatch = useDispatch();
 
   const { isLoading, data, error } =
@@ -31,7 +32,6 @@ const Cards = () => {
 
   const characters = data?.results ?? [];
 
-  const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
   const [triggerCharacterDetails, newData] =
     charactersApi.endpoints.characterDetails.useLazyQuery();
 
@@ -43,8 +43,9 @@ const Cards = () => {
     document.body.classList.add('overflow-hidden');
 
     triggerCharacterDetails(Number(characterData.episode[0].slice(-1)));
+    console.log(characterData);
 
-    setCharacterData(characterData);
+    dispatch(setCharacterData(characterData));
   };
 
   const handleCloseModal = () => {
