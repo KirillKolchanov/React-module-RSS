@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 
 import '../styles/pages/Forms.css';
 
-import { ICarSchema } from '../models';
 import Switcher from './Forms/Switcher';
 import Card from './Card';
 import TextInput from './Forms/TextInput';
@@ -14,18 +12,28 @@ import FileInput from './Forms/FileInput';
 import Checkbox from './Forms/Checkbox';
 import warnings from '../utils/warnings';
 
+import { ICarSchema } from '../models';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCars } from '../store/reducers/carsSlice';
+
+interface RootState {
+  cars: {
+    carsDatabase: ICarSchema[];
+  };
+}
+
 const Forms = (): JSX.Element => {
   const form: UseFormReturn<FieldValues, unknown> = useForm();
-
   const { handleSubmit, reset } = form;
 
-  const [cars, setCars] = useState<ICarSchema[]>([]);
+  const carsDatabase = useSelector((state: RootState) => state.cars.carsDatabase);
+  const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues): void => {
     const fileData = new Blob([data.file[0]]);
-    setCars((prevState: ICarSchema[]): ICarSchema[] => {
-      return [
-        ...prevState,
+    dispatch(
+      setCars([
+        ...carsDatabase,
         {
           make: data.make,
           model: data.model,
@@ -35,8 +43,9 @@ const Forms = (): JSX.Element => {
           miles: data.mileage,
           price: data.price,
         },
-      ];
-    });
+      ])
+    );
+
     alert('The car is created!');
     reset();
   };
@@ -137,10 +146,10 @@ const Forms = (): JSX.Element => {
         </div>
       </div>
 
-      {cars.length !== 0 ? (
+      {carsDatabase.length !== 0 ? (
         <div className="mt-12 mb-12">
           <div className="flex justify-center gap-16 flex-wrap">
-            {cars.map((car: ICarSchema, index) => (
+            {carsDatabase.map((car: ICarSchema, index) => (
               <Card key={index} car={car} />
             ))}
           </div>

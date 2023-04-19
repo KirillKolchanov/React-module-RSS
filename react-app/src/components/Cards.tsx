@@ -1,108 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import CharacterCard from './CharacterCard';
+import { AxiosError } from 'axios';
 
-import { ICharacter, IEpisode } from '../models';
+import { useDispatch, useSelector } from 'react-redux';
+import { charactersApi } from '../api/charactersApi';
+import { setCharacterData, toggleCharacterDetailsModal } from '../store/reducers/charactersSlice';
+
+import CharacterCard from './CharacterCard';
 import Loader from './Loader';
 import Modal from './Modal';
 
-interface cardsProps {
-  searchValue: string;
+import { ICharacter } from '../models';
+
+interface RootState {
+  characters: {
+    searchValue: string;
+    results: ICharacter[];
+    isLoading: boolean;
+    error: string | null;
+    isModalOpen: boolean;
+    characterData: ICharacter;
+  };
 }
 
-const Cards = ({ searchValue }: cardsProps): JSX.Element => {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchCharacters, setSearchCharacters] = useState<ICharacter[]>([]);
-  const [characterData, setCharacterData] = useState<ICharacter | Record<string, never>>({});
-  const [episodeData, setEpisodeData] = useState<IEpisode | Record<string, never>>({});
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const Cards = () => {
+  const searchValue = useSelector((state: RootState) => state.characters.searchValue);
+  const isModalOpen = useSelector((state: RootState) => state.characters.isModalOpen);
+  const characterData = useSelector((state: RootState) => state.characters.characterData);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get<{ results: ICharacter[] }>(
-          'https://rickandmortyapi.com/api/character'
-        );
-        const data = response.data;
-        setCharacters(data.results);
-      } catch (err) {
-        setError((err as AxiosError).message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  const { isLoading, data, error } =
+    charactersApi.endpoints.searchCharacters.useQueryState(searchValue);
 
-  useEffect(() => {
-    if (characters.length) {
-      setSearchCharacters(
-        characters.filter((card) => card.name.toLowerCase().includes(searchValue.toLowerCase()))
-      );
-    }
-  }, [characters, searchValue]);
+  const characters = data?.results ?? [];
 
-  const characterDetails = async (characterData: ICharacter) => {
+  const [triggerCharacterDetails, newData] =
+    charactersApi.endpoints.characterDetails.useLazyQuery();
+
+  const episodeData = newData?.data ?? {};
+
+  const getCharacterDetails = (characterData: ICharacter) => {
+    dispatch(toggleCharacterDetailsModal());
+
     document.body.classList.add('overflow-hidden');
 
-    try {
-      const locationResponse = await axios(characterData.episode[0]);
-      const locationData = await locationResponse.data;
-      setEpisodeData(locationData);
-    } catch (err) {
-      setError((err as AxiosError).message);
-    }
+    triggerCharacterDetails(Number(characterData.episode[0].slice(-1)));
+    console.log(characterData);
 
-    setIsOpen(true);
-    setCharacterData(characterData);
+    dispatch(setCharacterData(characterData));
   };
 
   const handleCloseModal = () => {
     document.body.classList.remove('overflow-hidden');
-    setIsOpen(false);
+    dispatch(toggleCharacterDetailsModal());
   };
+
+  if (isLoading) {
+    return (
+      <div className="mt-12 mb-24">
+        <Loader />
+      </div>
+    );
+  }
+
+  if ((error as AxiosError)?.status === 404) {
+    return (
+      <div className="mt-12 mb-24">
+        <div className="flex flex-col">
+          <h1 className="mb-5 text-center">No matches found 😢</h1>
+          <h1 className="mb-5 text-center">Try another search...</h1>
+          <img src="/notFound.gif" alt="" className="giphy-embed m-auto rounded" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mt-12 mb-24">
+        <h1 className="mb-10 text-red-500 text-center">{(error as AxiosError).status}</h1>
+        <img src="/errorApi.gif" alt="" className="giphy-embed m-auto rounded" />
+      </div>
+    );
+  }
 
   return (
     <div className="mt-12 mb-24">
-      {!error ? (
-        <Modal
-          isOpen={isOpen}
-          onClose={handleCloseModal}
-          characterData={characterData}
-          episodeData={episodeData}
-        />
-      ) : null}
-      {error && (
-        <>
-          <h1 className="mb-10 text-red-500 text-center">{error}</h1>
-          <img src="/errorApi.gif" alt="" className="giphy-embed m-auto rounded" />
-        </>
-      )}
-
-      {isLoading && <Loader />}
-
-      {!error ? (
-        <div className="flex justify-center gap-16 flex-wrap">
-          {searchCharacters.length !== 0 ? (
-            searchCharacters.map((character: ICharacter) => (
+      <div className="flex justify-center gap-16 flex-wrap">
+        {characters.length !== 0
+          ? characters.map((character: ICharacter) => (
               <CharacterCard
                 key={character.id}
                 character={character}
-                onCharacter={characterDetails}
+                onCharacter={getCharacterDetails}
               />
             ))
-          ) : (
-            <div className="flex flex-col">
-              <h1 className="mb-5 text-center">No matches found 😢</h1>
-              <h1 className="mb-5 text-center">Try another search...</h1>
-              <img src="/notFound.gif" alt="" className="giphy-embed m-auto rounded" />
-            </div>
-          )}
-        </div>
-      ) : null}
+          : null}
+      </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        characterData={characterData}
+        episodeData={episodeData}
+      />
     </div>
   );
 };
