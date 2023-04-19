@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchValue } from '../store/slices/charactersSlice';
+import { setSearchValue } from '../store/reducers/charactersSlice';
 import { charactersApi } from '../api/charactersApi';
 import { ICharacter } from '../models';
 

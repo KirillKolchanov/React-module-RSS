@@ -14,7 +14,7 @@ import warnings from '../utils/warnings';
 
 import { ICarSchema } from '../models';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCars } from '../store/slices/carsSlice';
+import { setCars } from '../store/reducers/carsSlice';
 
 interface RootState {
   cars: {

@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { charactersApi } from '../api/charactersApi';
-import { setCharacterData, toggleCharacterDetailsModal } from '../store/slices/charactersSlice';
+import { setCharacterData, toggleCharacterDetailsModal } from '../store/reducers/charactersSlice';
 
 import CharacterCard from './CharacterCard';
 import Loader from './Loader';
