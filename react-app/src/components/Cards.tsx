@@ -43,7 +43,6 @@ const Cards = () => {
     document.body.classList.add('overflow-hidden');
 
     triggerCharacterDetails(Number(characterData.episode[0].slice(-1)));
-    console.log(characterData);
 
     dispatch(setCharacterData(characterData));
   };
