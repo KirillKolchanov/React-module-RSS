@@ -2,16 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   return (
-    <div className="my-0 pr-24 pl-24 w-full h-24 flex items-center justify-between border-b-2">
-      <h2>
-        {window.location.pathname === '/'
-          ? 'Home page'
-          : window.location.pathname === '/forms'
-          ? 'Forms page'
-          : window.location.pathname === '/about'
-          ? 'About page'
-          : 'Error page'}
-      </h2>
+    <div className="my-0 pr-24 pl-24 w-full h-24 flex items-center justify-end border-b-2">
       <div className="flex gap-10">
         <Link className="text-2xl" to={'/'}>
           Home
