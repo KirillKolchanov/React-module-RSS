@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
@@ -12,11 +12,11 @@ function App() {
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<Navigate replace to="/" />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="forms" element={<FormsPage />} />
         <Route path="/404" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate replace to="/404" />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Provider>
   );
